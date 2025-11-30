@@ -234,6 +234,7 @@
             z-index: 300;
             opacity: 1;
             transition: opacity 0.5s ease;
+            padding: 0 2rem;
         }
 
         .zoom-join-screen.hidden {
@@ -248,6 +249,7 @@
             margin-bottom: 1rem;
             white-space: nowrap;
             max-width: 100%;
+            text-align: center;
         }
 
         .zoom-meeting-subtitle {
@@ -1094,37 +1096,6 @@
                     // Small delay then scroll to video section
                     setTimeout(() => {
                         videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
-                        // After scroll completes, show second cursor to click play button
-                        setTimeout(() => {
-                            const playBtn = videoContainer.querySelector('.video-play-button');
-                            if (playBtn) {
-                                // Second cursor appears and moves to play button
-                                const videoCursor = document.createElement('div');
-                                videoCursor.className = 'auto-cursor';
-                                videoCursor.innerHTML = `
-                                  <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
-                                  </svg>`;
-                                document.body.appendChild(videoCursor);
-                                
-                                const playBtnRect = playBtn.getBoundingClientRect();
-                                const targetX = playBtnRect.left + playBtnRect.width / 2;
-                                const targetY = window.scrollY + playBtnRect.top + playBtnRect.height / 2;
-                                videoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
-                                
-                                setTimeout(() => {
-                                    playBtn.click();
-                                    setTimeout(() => {
-                                        videoCursor.remove();
-                                        // Unfreeze page
-                                        document.body.classList.remove('locked');
-                                        const lock = document.querySelector('.page-lock');
-                                        if (lock) lock.remove();
-                                    }, 600);
-                                }, 800);
-                            }
-                        }, 1000);
                     }, 100);
                 }
             });
