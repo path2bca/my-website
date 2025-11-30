@@ -148,11 +148,9 @@
         }
 
         .intro-video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: relative;
+            width: 100%;
+            max-width: 100vw;
             margin: 0;
             border-radius: 0;
             overflow: hidden;
@@ -164,7 +162,7 @@
                 0 0 0 1px rgba(0, 0, 0, 0.1),
                 0 40px 120px rgba(59, 130, 246, 0.45);
             display: none;
-            z-index: 2000;
+            min-height: 100vh;
         }
 
         .intro-video-container.visible {
@@ -937,10 +935,6 @@
                         </div>
                         <div class="video-title-bar">
                             <span>IntroPath2BCA.mp4</span>
-                            <span class="meeting-indicator">
-                                <span class="live-dot"></span>
-                                Live
-                            </span>
                         </div>
                     </div>
                     <video class="intro-video" muted loop playsinline>
@@ -1171,8 +1165,11 @@
                         const targetY = window.scrollY + liveRect.top + liveRect.height / 2;
                         autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
                         setTimeout(() => { 
-                            cta.click(); 
-                            setTimeout(() => { autoCursor.remove(); }, 1000);
+                            cta.click();
+                            // Don't remove cursor - reuse it for login screen
+                            setTimeout(() => {
+                                // Cursor will be reused by login screen
+                            }, 1000);
                         }, 900);
                     };
                     setTimeout(moveToButton, 300);
@@ -1192,18 +1189,27 @@
         const accessMessage = document.getElementById('accessMessage');
         
         if (zoomJoinBtn && zoomJoinScreen && passwordInput) {
-            // Create typing cursor once
-            const typingCursor = document.createElement('div');
-            typingCursor.className = 'auto-cursor';
-            typingCursor.innerHTML = `
-              <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
-              </svg>`;
-            typingCursor.style.opacity = '0';
-            document.body.appendChild(typingCursor);
+            // Reuse existing cursor from CTA button
+            let typingCursor = null;
+            
+            // Helper function to get or wait for cursor
+            const getCursor = () => {
+                return new Promise((resolve) => {
+                    const checkCursor = () => {
+                        typingCursor = document.querySelector('.auto-cursor');
+                        if (typingCursor) {
+                            resolve(typingCursor);
+                        } else {
+                            setTimeout(checkCursor, 100);
+                        }
+                    };
+                    checkCursor();
+                });
+            };
             
             // Helper function to move cursor to key
             const moveCursorToKey = (key) => {
+                if (!typingCursor) return;
                 const keyElement = document.querySelector(`.key[data-key="${key}"]`);
                 if (keyElement) {
                     const keyRect = keyElement.getBoundingClientRect();
@@ -1224,7 +1230,10 @@
             };
             
             // Auto-type password sequence
-            const autoTypePassword = () => {
+            const autoTypePassword = async () => {
+                // Wait for cursor to be available
+                await getCursor();
+                
                 // First attempt: BT (fails)
                 const typeSequence = [
                     { text: 'BT', delay: 500, success: false },
@@ -1262,29 +1271,19 @@
                                     accessMessage.className = 'access-message success';
                                     zoomJoinBtn.classList.add('enabled');
                                     
-                                    // Auto-click Enter button after success with cursor animation
+                                    // Auto-click Enter button after success with existing cursor
                                     setTimeout(() => {
-                                        // Create cursor for clicking Enter button
-                                        const btnCursor = document.createElement('div');
-                                        btnCursor.className = 'auto-cursor';
-                                        btnCursor.innerHTML = `
-                                          <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
-                                          </svg>`;
-                                        document.body.appendChild(btnCursor);
+                                        if (!typingCursor) return;
                                         
                                         // Position cursor on button
                                         const btnRect = zoomJoinBtn.getBoundingClientRect();
                                         const btnX = btnRect.left + btnRect.width / 2;
                                         const btnY = window.scrollY + btnRect.top + btnRect.height / 2;
-                                        btnCursor.style.transform = `translate(${btnX}px, ${btnY}px)`;
+                                        typingCursor.style.transform = `translate(${btnX}px, ${btnY}px)`;
                                         
                                         // Click after short delay
                                         setTimeout(() => {
                                             zoomJoinBtn.click();
-                                            setTimeout(() => {
-                                                btnCursor.remove();
-                                            }, 500);
                                         }, 600);
                                     }, 800);
                                 } else {
@@ -1372,7 +1371,6 @@
             const observer = new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     if (mutation.target.classList.contains('visible')) {
-                        typingCursor.style.opacity = '1';
                         setTimeout(autoTypePassword, 1000);
                         observer.disconnect();
                     }
