@@ -1263,8 +1263,15 @@
                 // Wait for cursor to be available
                 await getCursor();
                 
-                // Move cursor directly to first key without hovering over Enter
-                // Will start with 'B' key
+                // Immediately position cursor at first key to avoid shooting up/down
+                const firstKey = document.querySelector(`.key[data-key="B"]`);
+                if (firstKey && typingCursor) {
+                    const keyRect = firstKey.getBoundingClientRect();
+                    const keyX = keyRect.left + keyRect.width / 2;
+                    const keyY = window.scrollY + keyRect.top + keyRect.height / 2;
+                    typingCursor.style.transform = `translate(${keyX}px, ${keyY}px)`;
+                    typingCursor.style.transition = 'transform 0.6s cubic-bezier(.22,1,.36,1)';
+                }
                 
                 // First attempt: BT (fails)
                 const typeSequence = [
