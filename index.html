@@ -143,11 +143,16 @@
             justify-content: center;
             opacity: 1;
             transition: opacity 0.3s ease;
+            overflow-y: auto;
         }
 
         .disclaimer-modal.hidden {
             opacity: 0;
             pointer-events: none;
+        }
+
+        body.modal-open {
+            overflow: hidden;
         }
 
         .disclaimer-content {
@@ -1299,9 +1304,13 @@
         const disclaimerModal = document.getElementById('disclaimerModal');
         const disclaimerButton = document.getElementById('disclaimerButton');
         
+        // Prevent scrolling while modal is open
+        document.body.classList.add('modal-open');
+        
         if (disclaimerButton) {
             disclaimerButton.addEventListener('click', () => {
                 disclaimerModal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
             });
         }
 
