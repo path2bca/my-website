@@ -32,9 +32,10 @@
             top: 2rem;
             left: 2rem;
             height: 120px;
-            z-index: 1000;
+            z-index: 3000;
             mix-blend-mode: multiply;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         .top-logo:hover {
@@ -147,7 +148,9 @@
         }
 
         .intro-video-container {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
             margin: 0;
@@ -161,6 +164,7 @@
                 0 0 0 1px rgba(0, 0, 0, 0.1),
                 0 40px 120px rgba(59, 130, 246, 0.45);
             display: none;
+            z-index: 2000;
         }
 
         .intro-video-container.visible {
@@ -847,7 +851,9 @@
 </head>
 <body>
     <!-- Top Logo -->
-    <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
+    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+        <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
+    </a>
 
     <!-- Hero Section -->
     <section class="section hero">
@@ -930,7 +936,7 @@
                             </svg>
                         </div>
                         <div class="video-title-bar">
-                            <span>Path to Success</span>
+                            <span>IntroPath2BCA.mp4</span>
                             <span class="meeting-indicator">
                                 <span class="live-dot"></span>
                                 Live
@@ -1186,6 +1192,28 @@
         const accessMessage = document.getElementById('accessMessage');
         
         if (zoomJoinBtn && zoomJoinScreen && passwordInput) {
+            // Create typing cursor once
+            const typingCursor = document.createElement('div');
+            typingCursor.className = 'auto-cursor';
+            typingCursor.innerHTML = `
+              <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+              </svg>`;
+            typingCursor.style.opacity = '0';
+            document.body.appendChild(typingCursor);
+            
+            // Helper function to move cursor to key
+            const moveCursorToKey = (key) => {
+                const keyElement = document.querySelector(`.key[data-key="${key}"]`);
+                if (keyElement) {
+                    const keyRect = keyElement.getBoundingClientRect();
+                    const keyX = keyRect.left + keyRect.width / 2;
+                    const keyY = window.scrollY + keyRect.top + keyRect.height / 2;
+                    typingCursor.style.transform = `translate(${keyX}px, ${keyY}px)`;
+                    typingCursor.style.opacity = '1';
+                }
+            };
+            
             // Helper function to highlight keyboard key
             const highlightKey = (key) => {
                 const keyElement = document.querySelector(`.key[data-key="${key}"]`);
@@ -1218,10 +1246,14 @@
                     const typeChar = () => {
                         if (charIndex < attempt.text.length) {
                             const char = attempt.text[charIndex];
-                            passwordInput.value += char;
-                            highlightKey(char);
-                            charIndex++;
-                            setTimeout(typeChar, attempt.delay);
+                            // Move cursor to key first
+                            moveCursorToKey(char);
+                            setTimeout(() => {
+                                passwordInput.value += char;
+                                highlightKey(char);
+                                charIndex++;
+                                setTimeout(typeChar, attempt.delay);
+                            }, 300);
                         } else {
                             // Finished typing, show result
                             setTimeout(() => {
@@ -1264,10 +1296,13 @@
                                         let deleteIndex = passwordInput.value.length;
                                         const deleteChar = () => {
                                             if (deleteIndex > 0) {
-                                                highlightKey('DELETE');
-                                                passwordInput.value = passwordInput.value.slice(0, -1);
-                                                deleteIndex--;
-                                                setTimeout(deleteChar, 200);
+                                                moveCursorToKey('DELETE');
+                                                setTimeout(() => {
+                                                    highlightKey('DELETE');
+                                                    passwordInput.value = passwordInput.value.slice(0, -1);
+                                                    deleteIndex--;
+                                                    setTimeout(deleteChar, 200);
+                                                }, 300);
                                             } else {
                                                 // After deleting, try next password
                                                 setTimeout(() => {
@@ -1337,6 +1372,7 @@
             const observer = new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     if (mutation.target.classList.contains('visible')) {
+                        typingCursor.style.opacity = '1';
                         setTimeout(autoTypePassword, 1000);
                         observer.disconnect();
                     }
