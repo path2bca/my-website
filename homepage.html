@@ -224,7 +224,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 25%, #f5fbff 60%, #ffffff 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -239,55 +239,38 @@
             pointer-events: none;
         }
 
-        .login-icon {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
-            font-size: 3rem;
-        }
-
         .zoom-meeting-title {
-            font-size: 3rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #1e293b;
+            margin-bottom: 1rem;
             white-space: nowrap;
             max-width: 100%;
         }
 
         .zoom-meeting-subtitle {
-            font-size: 1.1rem;
-            color: #94a3b8;
+            font-size: 1.5rem;
+            color: #475569;
             margin-bottom: 3rem;
         }
 
         .access-message {
-            font-size: 1rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin-top: 1rem;
             margin-bottom: 1rem;
-            height: 24px;
+            height: 30px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .access-message.error {
-            color: #ef4444;
+            color: #dc2626;
             opacity: 1;
         }
 
         .access-message.success {
-            color: #22c55e;
+            color: #16a34a;
             opacity: 1;
         }
 
@@ -298,43 +281,44 @@
 
         .password-label {
             display: block;
-            color: #cbd5e1;
-            font-size: 0.95rem;
+            color: #475569;
+            font-size: 1.2rem;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             text-align: left;
         }
 
         .password-input {
-            width: 450px;
-            padding: 1.2rem 1.8rem;
-            font-size: 1.5rem;
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 8px;
-            color: #ffffff;
+            width: 550px;
+            padding: 1.5rem 2rem;
+            font-size: 2rem;
+            background: #ffffff;
+            border: 3px solid #cbd5e1;
+            border-radius: 12px;
+            color: #1e293b;
             outline: none;
             transition: all 0.3s ease;
             font-family: monospace;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.5em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .password-input:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
         }
 
         .zoom-join-button {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            padding: 1.2rem 3.5rem;
-            font-size: 1.2rem;
+            padding: 1.5rem 4.5rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
             opacity: 0.5;
             pointer-events: none;
         }
@@ -346,18 +330,18 @@
 
         .zoom-join-button.enabled:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.6);
         }
 
         .zoom-join-button.joining {
-            background: #475569;
+            background: #64748b;
             cursor: not-allowed;
         }
 
         .zoom-connecting {
             display: none;
-            color: #94a3b8;
-            font-size: 1.1rem;
+            color: #475569;
+            font-size: 1.2rem;
             margin-top: 1.5rem;
         }
 
@@ -370,37 +354,41 @@
             margin-top: 3rem;
             display: grid;
             grid-template-columns: repeat(10, 1fr);
-            gap: 8px;
-            max-width: 650px;
-            opacity: 0.6;
+            gap: 12px;
+            max-width: 900px;
+            opacity: 0.8;
         }
 
         .key {
-            background: #334155;
-            color: #cbd5e1;
-            border: 1px solid #475569;
-            border-radius: 6px;
-            padding: 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            background: #e2e8f0;
+            color: #1e293b;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
             text-align: center;
             transition: all 0.15s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .key.active {
             background: #3b82f6;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
         }
 
         .key.delete {
             grid-column: span 2;
-            background: #dc2626;
+            background: #fecaca;
+            color: #dc2626;
+            border-color: #f87171;
         }
 
         .key.delete.active {
-            background: #ef4444;
+            background: #dc2626;
+            color: white;
         }
 
         .intro-video-wrapper {
@@ -892,7 +880,6 @@
             <div class="intro-video-container">
                 <!-- Login Screen -->
                 <div class="zoom-join-screen" id="zoomJoinScreen">
-                    <div class="login-icon">🔐</div>
                     <h2 class="zoom-meeting-title">Path to Greatness</h2>
                     <p class="zoom-meeting-subtitle">Enter password to continue</p>
                     <div class="access-message" id="accessMessage"></div>
@@ -1243,10 +1230,31 @@
                                     accessMessage.className = 'access-message success';
                                     zoomJoinBtn.classList.add('enabled');
                                     
-                                    // Auto-click Enter button after success
+                                    // Auto-click Enter button after success with cursor animation
                                     setTimeout(() => {
-                                        zoomJoinBtn.click();
-                                    }, 1000);
+                                        // Create cursor for clicking Enter button
+                                        const btnCursor = document.createElement('div');
+                                        btnCursor.className = 'auto-cursor';
+                                        btnCursor.innerHTML = `
+                                          <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+                                          </svg>`;
+                                        document.body.appendChild(btnCursor);
+                                        
+                                        // Position cursor on button
+                                        const btnRect = zoomJoinBtn.getBoundingClientRect();
+                                        const btnX = btnRect.left + btnRect.width / 2;
+                                        const btnY = window.scrollY + btnRect.top + btnRect.height / 2;
+                                        btnCursor.style.transform = `translate(${btnX}px, ${btnY}px)`;
+                                        
+                                        // Click after short delay
+                                        setTimeout(() => {
+                                            zoomJoinBtn.click();
+                                            setTimeout(() => {
+                                                btnCursor.remove();
+                                            }, 500);
+                                        }, 600);
+                                    }, 800);
                                 } else {
                                     accessMessage.textContent = 'ACCESS DENIED. Please try again.';
                                     accessMessage.className = 'access-message error';
@@ -1299,8 +1307,27 @@
                     // After join screen fades, auto-play the video
                     setTimeout(() => {
                         const playBtn = document.querySelector('.video-play-button');
+                        const video = document.querySelector('.intro-video');
                         if (playBtn) {
                             playBtn.click();
+                            
+                            // Prevent skipping for first 5 seconds
+                            if (video) {
+                                let canSkip = false;
+                                const preventSkip = (e) => {
+                                    if (!canSkip && video.currentTime > 0.1) {
+                                        e.preventDefault();
+                                        video.currentTime = 0;
+                                    }
+                                };
+                                video.addEventListener('seeking', preventSkip);
+                                video.addEventListener('timeupdate', () => {
+                                    if (video.currentTime >= 5) {
+                                        canSkip = true;
+                                        video.removeEventListener('seeking', preventSkip);
+                                    }
+                                });
+                            }
                         }
                     }, 600);
                 }, 1500);
