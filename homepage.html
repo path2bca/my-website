@@ -262,12 +262,34 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            white-space: nowrap;
+            max-width: 100%;
         }
 
         .zoom-meeting-subtitle {
             font-size: 1.1rem;
             color: #94a3b8;
             margin-bottom: 3rem;
+        }
+
+        .access-message {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            height: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .access-message.error {
+            color: #ef4444;
+            opacity: 1;
+        }
+
+        .access-message.success {
+            color: #22c55e;
+            opacity: 1;
         }
 
         .password-input-container {
@@ -836,6 +858,7 @@
                     <div class="login-icon">🔐</div>
                     <h2 class="zoom-meeting-title">Path to Greatness</h2>
                     <p class="zoom-meeting-subtitle">Enter password to continue</p>
+                    <div class="access-message" id="accessMessage"></div>
                     <div class="password-input-container">
                         <label class="password-label">Password</label>
                         <input type="text" class="password-input" id="passwordInput" maxlength="3" readonly>
@@ -1097,64 +1120,70 @@
             checkCentered();
         }
 
-        // Zoom Join Meeting functionality
+        // Login password auto-type functionality
         const zoomJoinBtn = document.getElementById('zoomJoinBtn');
         const zoomJoinScreen = document.getElementById('zoomJoinScreen');
         const zoomConnecting = document.getElementById('zoomConnecting');
         const videoChrome = document.getElementById('videoChrome');
         const passwordInput = document.getElementById('passwordInput');
+        const accessMessage = document.getElementById('accessMessage');
         
         if (zoomJoinBtn && zoomJoinScreen && passwordInput) {
-            // Auto-type password with cursor animation
+            // Auto-type password sequence
             const autoTypePassword = () => {
-                const password = "BCA";
-                let currentIndex = 0;
+                // First attempt: BT (fails)
+                const typeSequence = [
+                    { text: 'BT', delay: 400, success: false },
+                    { text: 'BCA', delay: 400, success: true }
+                ];
                 
-                // Create typing cursor
-                const typingCursor = document.createElement('div');
-                typingCursor.className = 'auto-cursor';
-                typingCursor.innerHTML = `
-                  <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
-                  </svg>`;
-                document.body.appendChild(typingCursor);
+                let attemptIndex = 0;
                 
-                // Position cursor near input
-                const inputRect = passwordInput.getBoundingClientRect();
-                const cursorX = inputRect.left + inputRect.width / 2;
-                const cursorY = window.scrollY + inputRect.top + inputRect.height / 2;
-                typingCursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-                
-                // Type each character
-                const typeNextChar = () => {
-                    if (currentIndex < password.length) {
-                        passwordInput.value += password[currentIndex];
-                        currentIndex++;
-                        setTimeout(typeNextChar, 400);
-                    } else {
-                        // Password complete, enable button
-                        setTimeout(() => {
-                            zoomJoinBtn.classList.add('enabled');
-                            
-                            // Move cursor to button and click it
+                const tryPassword = () => {
+                    if (attemptIndex >= typeSequence.length) return;
+                    
+                    const attempt = typeSequence[attemptIndex];
+                    passwordInput.value = '';
+                    accessMessage.className = 'access-message';
+                    accessMessage.textContent = '';
+                    
+                    // Type each character
+                    let charIndex = 0;
+                    const typeChar = () => {
+                        if (charIndex < attempt.text.length) {
+                            passwordInput.value += attempt.text[charIndex];
+                            charIndex++;
+                            setTimeout(typeChar, attempt.delay);
+                        } else {
+                            // Finished typing, show result
                             setTimeout(() => {
-                                const btnRect = zoomJoinBtn.getBoundingClientRect();
-                                const btnX = btnRect.left + btnRect.width / 2;
-                                const btnY = window.scrollY + btnRect.top + btnRect.height / 2;
-                                typingCursor.style.transform = `translate(${btnX}px, ${btnY}px)`;
-                                
-                                setTimeout(() => {
-                                    zoomJoinBtn.click();
+                                if (attempt.success) {
+                                    accessMessage.textContent = 'ACCESS GRANTED';
+                                    accessMessage.className = 'access-message success';
+                                    zoomJoinBtn.classList.add('enabled');
+                                    
+                                    // Auto-click Enter button after success
                                     setTimeout(() => {
-                                        typingCursor.remove();
-                                    }, 500);
-                                }, 600);
-                            }, 300);
-                        }, 500);
-                    }
+                                        zoomJoinBtn.click();
+                                    }, 1000);
+                                } else {
+                                    accessMessage.textContent = 'ACCESS DENIED. Please try again.';
+                                    accessMessage.className = 'access-message error';
+                                    
+                                    // Try next password after delay
+                                    setTimeout(() => {
+                                        attemptIndex++;
+                                        tryPassword();
+                                    }, 1500);
+                                }
+                            }, 500);
+                        }
+                    };
+                    
+                    setTimeout(typeChar, 800);
                 };
                 
-                setTimeout(typeNextChar, 800);
+                tryPassword();
             };
             
             zoomJoinBtn.addEventListener('click', () => {
