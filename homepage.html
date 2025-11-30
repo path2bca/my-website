@@ -234,6 +234,7 @@
             z-index: 300;
             opacity: 1;
             transition: opacity 0.5s ease;
+            padding: 2rem;
         }
 
         .zoom-join-screen.hidden {
@@ -1169,10 +1170,7 @@
                         autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
                         setTimeout(() => { 
                             cta.click();
-                            // Don't remove cursor - reuse it for login screen
-                            setTimeout(() => {
-                                // Cursor will be reused by login screen
-                            }, 1000);
+                            // Keep cursor alive for login screen
                         }, 900);
                     };
                     setTimeout(moveToButton, 300);
@@ -1353,32 +1351,36 @@
                             const playY = window.scrollY + playRect.top + playRect.height / 2;
                             typingCursor.style.transform = `translate(${playX}px, ${playY}px)`;
                             
-                            // Click play after cursor reaches it
+                            // Wait, then remove cursor and play video
                             setTimeout(() => {
-                                playBtn.click();
-                                
-                                // Remove cursor after clicking
-                                setTimeout(() => {
-                                    if (typingCursor) typingCursor.remove();
-                                }, 500);
-                                
-                                // Prevent skipping for first 5 seconds
-                                if (video) {
-                                    let canSkip = false;
-                                    const preventSkip = (e) => {
-                                        if (!canSkip && video.currentTime > 0.1) {
-                                            e.preventDefault();
-                                            video.currentTime = 0;
-                                        }
-                                    };
-                                    video.addEventListener('seeking', preventSkip);
-                                    video.addEventListener('timeupdate', () => {
-                                        if (video.currentTime >= 5) {
-                                            canSkip = true;
-                                            video.removeEventListener('seeking', preventSkip);
-                                        }
-                                    });
+                                // Remove cursor first
+                                if (typingCursor) {
+                                    typingCursor.remove();
+                                    typingCursor = null;
                                 }
+                                
+                                // Then click play after cursor is gone
+                                setTimeout(() => {
+                                    playBtn.click();
+                                    
+                                    // Prevent skipping for first 5 seconds
+                                    if (video) {
+                                        let canSkip = false;
+                                        const preventSkip = (e) => {
+                                            if (!canSkip && video.currentTime > 0.1) {
+                                                e.preventDefault();
+                                                video.currentTime = 0;
+                                            }
+                                        };
+                                        video.addEventListener('seeking', preventSkip);
+                                        video.addEventListener('timeupdate', () => {
+                                            if (video.currentTime >= 5) {
+                                                canSkip = true;
+                                                video.removeEventListener('seeking', preventSkip);
+                                            }
+                                        });
+                                    }
+                                }, 200);
                             }, 800);
                         }
                     }, 600);
