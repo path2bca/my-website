@@ -82,55 +82,58 @@
             pointer-events: none;
         }
 
+        /* Attention-grabbing state */
+        .floating-work-btn.attention {
+            animation: attentionPulse 1.5s ease-in-out 3;
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 1);
+        }
+
+        @keyframes attentionPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            }
+            50% {
+                transform: scale(1.15);
+                box-shadow: 0 0 30px 15px rgba(59, 130, 246, 0.8),
+                            0 0 60px 30px rgba(59, 130, 246, 0.4);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            }
+        }
+
+        /* Pointer arrow */
+        .pointer-arrow {
+            position: fixed;
+            top: 1rem;
+            right: 14rem;
+            z-index: 2999;
+            font-size: 3rem;
+            opacity: 0;
+            pointer-events: none;
+            animation: pointAndFade 4s ease-in-out forwards;
+        }
+
+        @keyframes pointAndFade {
+            0%, 10% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            20%, 80% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            90%, 100% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+
         body:has(.intro-video-container.visible) .floating-work-btn {
             opacity: 0;
             pointer-events: none;
-        }
-
-        /* Animation states for CTA button */
-        .cta-button-large.animating {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(3);
-            z-index: 4000;
-            animation: pulsateAndMove 2s ease-in-out forwards;
-        }
-
-        @keyframes pulsateAndMove {
-            0% {
-                transform: translate(-50%, -50%) scale(3);
-            }
-            30% {
-                transform: translate(-50%, -50%) scale(3.5);
-            }
-            60% {
-                transform: translate(-50%, -50%) scale(3);
-            }
-            100% {
-                transform: translate(calc(50vw - 2rem - 100%), -50vh + 2rem) scale(1);
-                top: 2rem;
-                right: 2rem;
-            }
-        }
-
-        /* Freeze overlay */
-        .freeze-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 3500;
-            display: none;
-            cursor: default;
-        }
-
-        .freeze-overlay.active {
-            display: block;
-            pointer-events: all;
-            cursor: default;
         }
 
         /* Disclaimer Modal */
@@ -1905,11 +1908,11 @@
         const ctaButton = document.getElementById('ctaButton');
         const ctaTitle = document.getElementById('ctaTitle');
         const ctaSubtitle = document.getElementById('ctaSubtitle');
-        const freezeOverlay = document.getElementById('freezeOverlay');
         const videoIntroContainer = document.querySelector('.intro-video-container');
         const videoSection = document.querySelector('.video-intro');
+        const workWithUsCta = document.getElementById('workWithUsCta');
         
-        let workBtnAnimationTriggered = false;
+        let attentionTriggered = false;
 
         // Initially show floating button
         floatingWorkBtn.classList.add('before-animation');
@@ -1917,23 +1920,17 @@
         // Continuously monitor video section visibility to hide/show button
         const videoSectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                console.log('Video section visibility:', {
-                    sectionIntersecting: entry.isIntersecting,
-                    animationTriggered: workBtnAnimationTriggered,
-                    beforeAnimation: floatingWorkBtn.classList.contains('before-animation')
-                });
-                
                 if (entry.isIntersecting) {
                     // User is in video section - hide button
                     floatingWorkBtn.classList.add('hidden');
                     floatingWorkBtn.classList.remove('before-animation');
                 } else {
                     // User is NOT in video section
-                    if (workBtnAnimationTriggered) {
-                        // Animation already happened - show button
+                    if (attentionTriggered) {
+                        // Attention already happened - show button
                         floatingWorkBtn.classList.remove('hidden');
                     } else if (floatingWorkBtn.classList.contains('before-animation')) {
-                        // Before animation - show button
+                        // Before attention - show button
                         floatingWorkBtn.classList.remove('hidden');
                     }
                 }
@@ -1944,74 +1941,55 @@
             videoSectionObserver.observe(videoSection);
         }
 
-        // Intersection Observer to detect when CTA button reaches center of screen
-        const ctaObserver = new IntersectionObserver((entries) => {
+        // Observer for "Work With Us" CTA section
+        const ctaSectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                console.log('CTA Button visibility:', {
+                console.log('Work With Us CTA section:', {
                     isIntersecting: entry.isIntersecting,
                     ratio: entry.intersectionRatio,
-                    triggered: workBtnAnimationTriggered
+                    attentionTriggered: attentionTriggered
                 });
                 
-                // Trigger when button is fully visible and hasn't been triggered yet
-                if (entry.isIntersecting && !workBtnAnimationTriggered && entry.intersectionRatio >= 0.8) {
-                    console.log('✓✓✓ TRIGGERING WORK WITH US ANIMATION! ✓✓✓');
-                    workBtnAnimationTriggered = true;
-                    triggerWorkBtnAnimation();
+                // Trigger attention effect when section becomes 50% visible
+                if (entry.isIntersecting && !attentionTriggered && entry.intersectionRatio >= 0.5) {
+                    console.log('✓✓✓ TRIGGERING ATTENTION EFFECT! ✓✓✓');
+                    attentionTriggered = true;
+                    triggerAttentionEffect();
                 }
             });
         }, {
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+            threshold: [0, 0.25, 0.5, 0.75, 1.0],
             rootMargin: '0px'
         });
 
-        if (ctaButton) {
-            console.log('✓ Setting up observer for CTA button:', ctaButton);
-            ctaObserver.observe(ctaButton);
-        } else {
-            console.error('✗ CTA button not found!');
+        if (workWithUsCta) {
+            console.log('✓ Setting up observer for Work With Us CTA section');
+            ctaSectionObserver.observe(workWithUsCta);
         }
 
-        function triggerWorkBtnAnimation() {
-            console.log('Starting Work With Us animation...');
+        function triggerAttentionEffect() {
+            console.log('Drawing attention to Work With Us button!');
             
-            // Hide initial button state
+            // Remove before-animation class
             floatingWorkBtn.classList.remove('before-animation');
-            floatingWorkBtn.classList.add('hidden');
             
-            // Hide title and subtitle
-            if (ctaTitle) ctaTitle.classList.add('hidden');
-            if (ctaSubtitle) ctaSubtitle.classList.add('hidden');
+            // Make sure button is visible
+            floatingWorkBtn.classList.remove('hidden');
             
-            // Show freeze overlay
-            if (freezeOverlay) freezeOverlay.classList.add('active');
+            // Add attention class for pulsing animation
+            floatingWorkBtn.classList.add('attention');
             
-            // Start animation on CTA button
-            if (ctaButton) {
-                ctaButton.classList.add('animating');
-                console.log('Added animating class to button');
-            }
+            // Create pointer arrow
+            const arrow = document.createElement('div');
+            arrow.className = 'pointer-arrow';
+            arrow.innerHTML = '👉';
+            document.body.appendChild(arrow);
             
-            // After animation completes (2s), show floating button and clean up
+            // Remove attention class after animation completes
             setTimeout(() => {
-                console.log('Animation complete, cleaning up...');
-                
-                // Remove animation class
-                if (ctaButton) ctaButton.classList.remove('animating');
-                
-                // Hide the CTA button permanently
-                if (ctaButton) {
-                    ctaButton.style.opacity = '0';
-                    ctaButton.style.pointerEvents = 'none';
-                }
-                
-                // Show floating button (video section observer will handle hiding/showing based on scroll position)
-                floatingWorkBtn.classList.remove('hidden');
-                console.log('Showing floating button after animation');
-                
-                // Remove freeze overlay
-                if (freezeOverlay) freezeOverlay.classList.remove('active');
-            }, 2000);
+                floatingWorkBtn.classList.remove('attention');
+                arrow.remove();
+            }, 4500);
         }
     </script>
 </body>
