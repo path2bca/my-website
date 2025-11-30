@@ -1043,8 +1043,8 @@
                     document.body.appendChild(autoCursor);
                     
                     const moveToButton = () => {
-                        const targetX = rect.left + rect.width * 0.75;
-                        const targetY = window.scrollY + rect.top + rect.height * 0.4;
+                        const targetX = rect.left + rect.width / 2;
+                        const targetY = window.scrollY + rect.top + rect.height / 2;
                         autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
                         setTimeout(() => { 
                             cta.click(); 
