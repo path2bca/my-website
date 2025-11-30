@@ -1463,6 +1463,31 @@
             const videoContainer = document.querySelector('.intro-video-container');
             if (videoContainer) {
                 observer.observe(videoContainer, { attributes: true, attributeFilter: ['class'] });
+                
+                // Hide video container when scrolling away from video section
+                let videoPlayed = false;
+                const videoSection = document.querySelector('.video-intro');
+                
+                window.addEventListener('scroll', () => {
+                    if (!videoContainer.classList.contains('visible')) return;
+                    
+                    const video = document.querySelector('.intro-video');
+                    if (video && video.played.length > 0) {
+                        videoPlayed = true;
+                    }
+                    
+                    // Only allow hiding after video has started playing and scrolling is unlocked
+                    if (videoPlayed && !document.body.classList.contains('locked')) {
+                        const videoSectionRect = videoSection.getBoundingClientRect();
+                        
+                        // Hide container when scrolled significantly away from video section
+                        if (videoSectionRect.bottom < 0 || videoSectionRect.top > window.innerHeight) {
+                            videoContainer.style.display = 'none';
+                        } else {
+                            videoContainer.style.display = 'block';
+                        }
+                    }
+                });
             }
         }
 
