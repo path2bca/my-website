@@ -515,6 +515,41 @@
             pointer-events: none;
         }
 
+        .volume-reminder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .volume-reminder.show {
+            opacity: 1;
+        }
+
+        .volume-reminder-text {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .volume-reminder-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
         .intro-video-container.playing .video-overlay {
             opacity: 0;
         }
@@ -961,6 +996,10 @@
                             <span>IntroPath2BCA.mp4</span>
                         </div>
                     </div>
+                    <div class="volume-reminder" id="volumeReminder">
+                        <div class="volume-reminder-icon">🔊</div>
+                        <div class="volume-reminder-text">Please turn on your volume</div>
+                    </div>
                     <video class="intro-video" muted loop playsinline>
                         <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4607-large.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -1350,33 +1389,47 @@
                                     videoChrome.classList.add('visible');
                                 }
                                 
-                                // Auto-play video
-                                setTimeout(() => {
-                                    const playBtn = document.querySelector('.video-play-button');
-                                    const video = document.querySelector('.intro-video');
+                                // Show volume reminder for 3 seconds
+                                const volumeReminder = document.getElementById('volumeReminder');
+                                if (volumeReminder) {
+                                    // Show reminder
+                                    setTimeout(() => {
+                                        volumeReminder.classList.add('show');
+                                    }, 100);
                                     
-                                    if (playBtn) {
-                                        playBtn.click();
+                                    // Hide reminder and play video after 3 seconds
+                                    setTimeout(() => {
+                                        volumeReminder.classList.remove('show');
                                         
-                                        // Prevent skipping for first 5 seconds
-                                        if (video) {
-                                            let canSkip = false;
-                                            const preventSkip = (e) => {
-                                                if (!canSkip && video.currentTime > 0.1) {
-                                                    e.preventDefault();
-                                                    video.currentTime = 0;
+                                        // Play video after fade out
+                                        setTimeout(() => {
+                                            const playBtn = document.querySelector('.video-play-button');
+                                            const video = document.querySelector('.intro-video');
+                                            
+                                            if (playBtn) {
+                                                playBtn.click();
+                                                
+                                                // Prevent skipping for first 5 seconds
+                                                if (video) {
+                                                    let canSkip = false;
+                                                    const preventSkip = (e) => {
+                                                        if (!canSkip && video.currentTime > 0.1) {
+                                                            e.preventDefault();
+                                                            video.currentTime = 0;
+                                                        }
+                                                    };
+                                                    video.addEventListener('seeking', preventSkip);
+                                                    video.addEventListener('timeupdate', () => {
+                                                        if (video.currentTime >= 5) {
+                                                            canSkip = true;
+                                                            video.removeEventListener('seeking', preventSkip);
+                                                        }
+                                                    });
                                                 }
-                                            };
-                                            video.addEventListener('seeking', preventSkip);
-                                            video.addEventListener('timeupdate', () => {
-                                                if (video.currentTime >= 5) {
-                                                    canSkip = true;
-                                                    video.removeEventListener('seeking', preventSkip);
-                                                }
-                                            });
-                                        }
-                                    }
-                                }, 300);
+                                            }
+                                        }, 500);
+                                    }, 3000);
+                                }
                             }, 600);
                         }
                     }, 500);
