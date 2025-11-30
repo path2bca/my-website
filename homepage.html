@@ -1907,30 +1907,47 @@
         const ctaSubtitle = document.getElementById('ctaSubtitle');
         const freezeOverlay = document.getElementById('freezeOverlay');
         const videoIntroContainer = document.querySelector('.intro-video-container');
+        const videoSection = document.querySelector('.video-intro');
         
         let workBtnAnimationTriggered = false;
         let userHasScrolledToSection = false;
 
-        // Show floating button initially, hide when scrolling starts
+        // Initially show floating button
         floatingWorkBtn.classList.add('before-animation');
 
-        // Hide floating button once user scrolls past hero
-        let hasScrolledPastHero = false;
+        // Continuously monitor video section visibility
+        const videoSectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const isVideoVisible = entry.isIntersecting && videoIntroContainer && videoIntroContainer.classList.contains('visible');
+                
+                console.log('Video section visibility:', {
+                    sectionIntersecting: entry.isIntersecting,
+                    videoHasVisibleClass: videoIntroContainer?.classList.contains('visible'),
+                    shouldHideButton: isVideoVisible
+                });
+                
+                if (isVideoVisible) {
+                    // Hide button when video section is visible
+                    floatingWorkBtn.classList.add('hidden');
+                } else if (workBtnAnimationTriggered) {
+                    // Show button after animation has completed (unless in video section)
+                    floatingWorkBtn.classList.remove('hidden');
+                }
+            });
+        }, { threshold: [0, 0.25, 0.5, 0.75, 1.0] });
+
+        if (videoSection) {
+            videoSectionObserver.observe(videoSection);
+        }
+
+        // Track scrolling past video section
         window.addEventListener('scroll', () => {
-            if (!hasScrolledPastHero && window.scrollY > 100) {
-                hasScrolledPastHero = true;
-                floatingWorkBtn.classList.remove('before-animation');
-                floatingWorkBtn.classList.add('hidden');
-            }
-            
-            // Mark that user has scrolled past video section (beyond 1000px)
             if (window.scrollY > 1000) {
                 userHasScrolledToSection = true;
             }
         });
 
         // Intersection Observer to detect when CTA button reaches center of screen
-        let ctaButtonVisible = false;
         const ctaObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 console.log('CTA Button:', {
@@ -1961,13 +1978,10 @@
 
         function triggerWorkBtnAnimation() {
             console.log('Starting Work With Us animation...');
-            console.log('Elements:', {
-                ctaButton,
-                ctaTitle,
-                ctaSubtitle,
-                freezeOverlay,
-                floatingWorkBtn
-            });
+            
+            // Hide initial button state
+            floatingWorkBtn.classList.remove('before-animation');
+            floatingWorkBtn.classList.add('hidden');
             
             // Hide title and subtitle
             if (ctaTitle) ctaTitle.classList.add('hidden');
@@ -1995,35 +2009,16 @@
                     ctaButton.style.pointerEvents = 'none';
                 }
                 
-                // Show floating button (unless video is visible)
-                if (!videoIntroContainer.classList.contains('visible')) {
+                // Show floating button (video observer will handle hiding it if needed)
+                const isVideoCurrentlyVisible = videoIntroContainer && videoIntroContainer.classList.contains('visible');
+                if (!isVideoCurrentlyVisible) {
                     floatingWorkBtn.classList.remove('hidden');
-                    console.log('Showing floating button');
+                    console.log('Showing floating button after animation');
                 }
                 
                 // Remove freeze overlay
                 if (freezeOverlay) freezeOverlay.classList.remove('active');
-                
-                // Keep title/subtitle hidden
             }, 2000);
-        }
-
-        // Handle scroll to hide/show floating button based on video visibility
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (workBtnAnimationTriggered) {
-                    // After animation, manage button visibility based on video
-                    if (entry.isIntersecting && videoIntroContainer.classList.contains('visible')) {
-                        floatingWorkBtn.classList.add('hidden');
-                    } else if (!videoIntroContainer.classList.contains('visible')) {
-                        floatingWorkBtn.classList.remove('hidden');
-                    }
-                }
-            });
-        }, { threshold: 0.1 });
-
-        if (videoIntroContainer) {
-            videoObserver.observe(videoIntroContainer);
         }
     </script>
 </body>
