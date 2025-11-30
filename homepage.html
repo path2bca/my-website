@@ -148,19 +148,26 @@
 
         .intro-video-container {
             position: relative;
-            width: 100%;
-            max-width: 1800px;
+            width: 95%;
+            max-width: 1600px;
             margin: 0 auto;
-            border-radius: 24px;
-            overflow: visible;
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 12px;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.9) translateY(60px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #232323;
+            box-shadow: 
+                0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 40px 120px rgba(59, 130, 246, 0.45);
+            display: none;
+            min-height: 600px;
         }
 
         .intro-video-container.visible {
             opacity: 1;
             transform: scale(1) translateY(0);
+            display: block;
         }
 
         /* High-tech animated border */
@@ -168,7 +175,7 @@
             content: '';
             position: absolute;
             inset: -4px;
-            border-radius: 24px;
+            border-radius: 16px;
             padding: 4px;
             background: linear-gradient(45deg, 
                 #3b82f6, 
@@ -190,7 +197,7 @@
             content: '';
             position: absolute;
             inset: -20px;
-            border-radius: 28px;
+            border-radius: 20px;
             background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.4) 0%, transparent 50%),
                         radial-gradient(circle at top right, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
                         radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
@@ -211,33 +218,122 @@
             50% { opacity: 1; transform: scale(1.02); }
         }
 
-        .intro-video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            background: #1a1a1a;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 30px 80px rgba(59, 130, 246, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        /* Zoom Join Screen */
+        .zoom-join-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #232323;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
-        /* Mac-style window chrome */
+        .zoom-join-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .zoom-logo {
+            width: 120px;
+            height: 120px;
+            background: #2D8CFF;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(45, 140, 255, 0.3);
+        }
+
+        .zoom-logo svg {
+            width: 70px;
+            height: 70px;
+            fill: white;
+        }
+
+        .zoom-meeting-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .zoom-meeting-subtitle {
+            font-size: 1.2rem;
+            color: #999;
+            margin-bottom: 3rem;
+        }
+
+        .zoom-join-button {
+            background: #2D8CFF;
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(45, 140, 255, 0.4);
+        }
+
+        .zoom-join-button:hover {
+            background: #1E7BE5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(45, 140, 255, 0.5);
+        }
+
+        .zoom-join-button.joining {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .zoom-connecting {
+            display: none;
+            color: #999;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+        }
+
+        .zoom-connecting.active {
+            display: block;
+        }
+
+        .intro-video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 60px;
+            background: #232323;
+            min-height: 600px;
+        }
+
+        /* Zoom-style window chrome */
         .video-chrome {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 40px;
-            background: linear-gradient(180deg, rgba(50, 50, 50, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
-            backdrop-filter: blur(10px);
+            height: 60px;
+            background: #1c1c1c;
             display: flex;
             align-items: center;
-            padding: 0 12px;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px 20px 0 0;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 200;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease 0.5s;
+        }
+
+        .video-chrome.visible {
+            opacity: 1;
         }
 
         .window-controls {
@@ -246,15 +342,16 @@
         }
 
         .window-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        .window-dot.close { background: #ff5f56; }
-        .window-dot.minimize { background: #ffbd2e; }
-        .window-dot.maximize { background: #27c93f; }
+        .window-dot.close { background: #ff5f57; }
+        .window-dot.minimize { background: #febc2e; }
+        .window-dot.maximize { background: #28c840; }
 
         .intro-video-container:hover .window-dot.close:hover { 
             background: #ff4136;
@@ -273,18 +370,16 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
         .intro-video {
-            position: absolute;
-            top: 40px;
-            left: 0;
             width: 100%;
-            height: calc(100% - 40px);
+            height: auto;
+            display: block;
             object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -295,10 +390,10 @@
 
         .video-overlay {
             position: absolute;
-            top: 40px;
+            top: 50px;
             left: 0;
             width: 100%;
-            height: calc(100% - 40px);
+            height: calc(100% - 50px);
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
             display: flex;
             align-items: center;
@@ -315,7 +410,7 @@
         /* legacy cursor styles removed in favor of auto-cursor */
 
         /* Temporary "coming soon" overlay */
-        .coming-soon { position: absolute; inset: 40px 0 0 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); color: #fff; font-size: 1.1rem; opacity: 0; transition: opacity 0.4s ease; }
+        .coming-soon { position: absolute; top: 50px; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); color: #fff; font-size: 1.1rem; opacity: 0; transition: opacity 0.4s ease; }
         .coming-soon.show { opacity: 1; }
 
         .video-play-button {
@@ -453,13 +548,16 @@
         }
 
         .demo-header {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 700;
             margin-bottom: 4rem;
             text-align: center;
             position: relative;
             z-index: 2;
             color: #1e293b;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .video-grid {
@@ -485,7 +583,7 @@
         }
 
         .video-card:hover {
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 28px 60px rgba(59, 130, 246, 0.28);
             border-color: rgba(59, 130, 246, 0.3);
         }
 
@@ -673,7 +771,6 @@
             <h1 class="slogan">Why not learn from the people who actually got in?</h1>
             <p class="subtext">REAL students, REAL affordability.</p>
             <p class="disclaimer">Not affiliated with Bergen County Academies</p>
-            
         </div>
         <div class="scroll-indicator">
             <svg width="30" height="50" viewBox="0 0 30 50" fill="none" stroke="#3b82f6" stroke-width="2">
@@ -696,14 +793,33 @@
     <section class="section video-intro">
         <div class="video-intro-content">
             <div class="intro-video-container">
+                <!-- Zoom Join Screen -->
+                <div class="zoom-join-screen" id="zoomJoinScreen">
+                    <div class="zoom-logo">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M2 8.5C2 7.67 2.67 7 3.5 7h9c.83 0 1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5h-9c-.83 0-1.5-.67-1.5-1.5v-7zm16.5-2L22 4v16l-3.5-2.5V6.5z"/>
+                        </svg>
+                    </div>
+                    <h2 class="zoom-meeting-title">Path to Success</h2>
+                    <p class="zoom-meeting-subtitle">Join Meeting</p>
+                    <button class="zoom-join-button" id="zoomJoinBtn">Join Meeting</button>
+                    <div class="zoom-connecting" id="zoomConnecting">Connecting to meeting...</div>
+                </div>
+
                 <div class="intro-video-wrapper">
-                    <div class="video-chrome">
+                    <div class="video-chrome" id="videoChrome">
                         <div class="window-controls">
-                            <div class="window-dot close"></div>
-                            <div class="window-dot minimize"></div>
-                            <div class="window-dot maximize"></div>
+                            <svg class="zoom-icon" viewBox="0 0 24 24">
+                                <path d="M2 8.5C2 7.67 2.67 7 3.5 7h9c.83 0 1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5h-9c-.83 0-1.5-.67-1.5-1.5v-7zm16.5-2L22 4v16l-3.5-2.5V6.5z"/>
+                            </svg>
                         </div>
-                        <div class="video-title-bar">Path2BCA_Intro.mp4</div>
+                        <div class="video-title-bar">
+                            <span>Path to Success</span>
+                            <span class="meeting-indicator">
+                                <span class="live-dot"></span>
+                                Live
+                            </span>
+                        </div>
                     </div>
                     <video class="intro-video" muted loop playsinline>
                         <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4607-large.mp4" type="video/mp4">
@@ -730,7 +846,7 @@
         <div class="problem-content">
             <p class="problem-text">
                 Every year, <span class="highlight">hundreds of families</span> spend 
-                <span class="highlight">tens of thousands of dollars</span> on <span class="highlight">CERTAIN</span> test prep companies...
+                <span class="highlight">thousands of dollars</span> on <span class="highlight">CERTAIN</span> test prep companies...
             </p>
             <p class="cost-callout">(We all know who they are)</p>
             <p class="problem-text">...hoping their child gets into <span class="highlight">BCA</span>.</p>
@@ -808,24 +924,6 @@
 
         animateGrids();
 
-        // Video intro scroll animation
-        const videoIntroObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    videoIntroObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px'
-        });
-
-        const introVideoContainer = document.querySelector('.intro-video-container');
-        if (introVideoContainer) {
-            videoIntroObserver.observe(introVideoContainer);
-        }
-
         // Video auto-play and interaction
         const introVideo = document.querySelector('.intro-video');
         const videoPlayButton = document.querySelector('.video-play-button');
@@ -860,7 +958,7 @@
             });
         }
 
-        // CTA click → scroll to video section and trigger play
+        // CTA click → show video, scroll to it, and trigger play with second cursor
         const cta = document.getElementById('ctaGetIntoBca');
         if (cta) {
             cta.addEventListener('click', () => {
@@ -871,36 +969,45 @@
                 const videoContainer = document.querySelector('.intro-video-container');
                 
                 if (videoSection && videoContainer) {
-                    videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Make video visible immediately
                     videoContainer.classList.add('visible');
+                    videoContainer.style.display = 'block';
                     
+                    // Small delay then scroll to video section
                     setTimeout(() => {
-                        const playBtn = videoContainer.querySelector('.video-play-button');
-                        if (playBtn) {
-                            const videoCursor = document.createElement('div');
-                            videoCursor.className = 'auto-cursor';
-                            videoCursor.innerHTML = `
-                              <svg width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.2"/>
-                              </svg>`;
-                            document.body.appendChild(videoCursor);
-                            
-                            const playBtnRect = playBtn.getBoundingClientRect();
-                            const targetX = playBtnRect.left + playBtnRect.width / 2;
-                            const targetY = window.scrollY + playBtnRect.top + playBtnRect.height / 2;
-                            videoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
-                            
-                            setTimeout(() => {
-                                playBtn.click();
+                        videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // After scroll completes, show second cursor to click play button
+                        setTimeout(() => {
+                            const playBtn = videoContainer.querySelector('.video-play-button');
+                            if (playBtn) {
+                                // Second cursor appears and moves to play button
+                                const videoCursor = document.createElement('div');
+                                videoCursor.className = 'auto-cursor';
+                                videoCursor.innerHTML = `
+                                  <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+                                  </svg>`;
+                                document.body.appendChild(videoCursor);
+                                
+                                const playBtnRect = playBtn.getBoundingClientRect();
+                                const targetX = playBtnRect.left + playBtnRect.width / 2;
+                                const targetY = window.scrollY + playBtnRect.top + playBtnRect.height / 2;
+                                videoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                                
                                 setTimeout(() => {
-                                    videoCursor.remove();
-                                    document.body.classList.remove('locked');
-                                    const lock = document.querySelector('.page-lock');
-                                    if (lock) lock.remove();
-                                }, 600);
-                            }, 800);
-                        }
-                    }, 1000);
+                                    playBtn.click();
+                                    setTimeout(() => {
+                                        videoCursor.remove();
+                                        // Unfreeze page
+                                        document.body.classList.remove('locked');
+                                        const lock = document.querySelector('.page-lock');
+                                        if (lock) lock.remove();
+                                    }, 600);
+                                }, 800);
+                            }
+                        }, 1000);
+                    }, 100);
                 }
             });
 
@@ -909,47 +1016,78 @@
             let userHasScrolled = false;
             window.addEventListener('scroll', () => { userHasScrolled = true; });
 
-            const ctaSectionEl = document.querySelector('.cta-section');
-            if (ctaSectionEl) {
-                const checkCentered = () => {
-                    if (autoTriggered || !userHasScrolled) return;
-                    
-                    const rect = cta.getBoundingClientRect();
-                    const viewportCenter = window.innerHeight / 2;
-                    const buttonCenter = rect.top + rect.height / 2;
-                    
-                    if (Math.abs(buttonCenter - viewportCenter) < window.innerHeight * 0.15) {
-                        autoTriggered = true;
-                        
-                        document.body.classList.add('locked');
-                        const pageLock = document.createElement('div');
-                        pageLock.className = 'page-lock';
-                        document.body.appendChild(pageLock);
-
-                        const autoCursor = document.createElement('div');
-                        autoCursor.className = 'auto-cursor';
-                        autoCursor.innerHTML = `
-                          <svg width="44" height="44" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.2"/>
-                          </svg>`;
-                        document.body.appendChild(autoCursor);
-                        
-                        const moveToButton = () => {
-                            const targetX = rect.left + rect.width * 0.75;
-                            const targetY = window.scrollY + rect.top + rect.height * 0.4;
-                            autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
-                            setTimeout(() => { 
-                                cta.click(); 
-                                setTimeout(() => { autoCursor.remove(); }, 1000);
-                            }, 900);
-                        };
-                        setTimeout(moveToButton, 300);
-                    }
-                };
+            const checkCentered = () => {
+                if (autoTriggered || !userHasScrolled) return;
                 
-                window.addEventListener('scroll', checkCentered);
-                checkCentered();
-            }
+                const rect = cta.getBoundingClientRect();
+                const viewportCenter = window.innerHeight / 2;
+                const buttonCenter = rect.top + rect.height / 2;
+                
+                // Check if button is roughly centered (within 15% of viewport center)
+                if (Math.abs(buttonCenter - viewportCenter) < window.innerHeight * 0.15) {
+                    autoTriggered = true;
+                    
+                    // Freeze the page
+                    document.body.classList.add('locked');
+                    const pageLock = document.createElement('div');
+                    pageLock.className = 'page-lock';
+                    document.body.appendChild(pageLock);
+
+                    // Show first cursor and click button
+                    const autoCursor = document.createElement('div');
+                    autoCursor.className = 'auto-cursor';
+                    autoCursor.innerHTML = `
+                      <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+                      </svg>`;
+                    document.body.appendChild(autoCursor);
+                    
+                    const moveToButton = () => {
+                        const targetX = rect.left + rect.width * 0.75;
+                        const targetY = window.scrollY + rect.top + rect.height * 0.4;
+                        autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                        setTimeout(() => { 
+                            cta.click(); 
+                            setTimeout(() => { autoCursor.remove(); }, 1000);
+                        }, 900);
+                    };
+                    setTimeout(moveToButton, 300);
+                }
+            };
+            
+            window.addEventListener('scroll', checkCentered);
+            checkCentered();
+        }
+
+        // Zoom Join Meeting functionality
+        const zoomJoinBtn = document.getElementById('zoomJoinBtn');
+        const zoomJoinScreen = document.getElementById('zoomJoinScreen');
+        const zoomConnecting = document.getElementById('zoomConnecting');
+        const videoChrome = document.getElementById('videoChrome');
+        
+        if (zoomJoinBtn && zoomJoinScreen) {
+            zoomJoinBtn.addEventListener('click', () => {
+                // Show connecting message
+                zoomJoinBtn.classList.add('joining');
+                zoomJoinBtn.textContent = 'Joining...';
+                zoomConnecting.classList.add('active');
+                
+                // After 1.5s, fade out join screen and show video chrome
+                setTimeout(() => {
+                    zoomJoinScreen.classList.add('hidden');
+                    if (videoChrome) {
+                        videoChrome.classList.add('visible');
+                    }
+                    
+                    // After join screen fades, auto-play the video
+                    setTimeout(() => {
+                        const playBtn = document.querySelector('.video-play-button');
+                        if (playBtn) {
+                            playBtn.click();
+                        }
+                    }, 600);
+                }, 1500);
+            });
         }
 
         // Dynamic founder cards pop-in animation
@@ -1096,99 +1234,6 @@
         if (videoGrid) {
             cardObserver.observe(videoGrid);
         }
-    </script>
-    <!-- Featured YouTube Video (lazy-load, privacy-enhanced) -->
-    <section class="section demo featured-video">
-        <div class="video-intro-content">
-            <h2 class="demo-header">Featured Video</h2>
-            <div style="max-width:900px;margin:1rem auto;">
-                <div class="yt-lite" data-video-id="tMlbcCIAkWs" style="border-radius:12px;overflow:hidden;">
-                    <button class="yt-lite-play" aria-label="Play video" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.2);">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto;">
-                            <path d="M8 5v14l11-7-11-7z" fill="#3b82f6"/>
-                        </svg>
-                    </button>
-                    <img class="yt-lite-poster" alt="Video poster" style="width:100%;height:auto;display:block;" src="https://img.youtube.com/vi/tMlbcCIAkWs/hqdefault.jpg">
-                </div>
-                <noscript>
-                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                        <iframe src="https://www.youtube-nocookie.com/embed/tMlbcCIAkWs" title="YouTube video: Path2BCA" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </noscript>
-                <p style="text-align:center;color:#64748b;margin-top:0.5rem;font-size:0.95rem;">Watch on <a href="https://www.youtube.com/watch?v=tMlbcCIAkWs" target="_blank" rel="noopener">YouTube</a></p>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        // Simple lazy YouTube loader: replace poster with privacy-enhanced iframe on click
-        (function(){
-            function createIframe(id){
-                var iframe = document.createElement('iframe');
-                iframe.setAttribute('src','https://www.youtube-nocookie.com/embed/'+id+'?rel=0&modestbranding=1');
-                iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-                iframe.setAttribute('allowfullscreen','');
-                iframe.style.position='absolute';
-                iframe.style.top='0';
-                iframe.style.left='0';
-                iframe.style.width='100%';
-                iframe.style.height='100%';
-                iframe.style.border='0';
-                return iframe;
-            }
-
-            function initLite(el){
-                var id = el.dataset.videoId;
-                if(!id) return;
-                // wrap to preserve 16:9
-                var wrapper = document.createElement('div');
-                wrapper.style.position='relative';
-                wrapper.style.paddingBottom='56.25%';
-                wrapper.style.height='0';
-                wrapper.style.overflow='hidden';
-                wrapper.style.background='#000';
-                // move existing poster into wrapper
-                var poster = el.querySelector('.yt-lite-poster');
-                if(poster){
-                    poster.style.position='absolute';
-                    poster.style.top='0';
-                    poster.style.left='0';
-                    poster.style.width='100%';
-                    poster.style.height='100%';
-                    poster.style.objectFit='cover';
-                    wrapper.appendChild(poster);
-                }
-                var btn = el.querySelector('.yt-lite-play');
-                if(btn){
-                    btn.style.position='absolute';
-                    btn.style.zIndex='3';
-                    wrapper.appendChild(btn);
-                }
-                // clear and append wrapper
-                el.innerHTML='';
-                el.appendChild(wrapper);
-
-                el.addEventListener('click', function(){
-                    // insert iframe
-                    var iframe = createIframe(id);
-                    // remove poster and button
-                    el.innerHTML='';
-                    // position wrapper for iframe
-                    var pos = document.createElement('div');
-                    pos.style.position='relative';
-                    pos.style.paddingBottom='56.25%';
-                    pos.style.height='0';
-                    pos.style.overflow='hidden';
-                    pos.appendChild(iframe);
-                    el.appendChild(pos);
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', function(){
-                var lites = document.querySelectorAll('.yt-lite');
-                lites.forEach(function(el){ initLite(el); });
-            });
-        })();
     </script>
 </body>
 </html>
