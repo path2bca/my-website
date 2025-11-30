@@ -44,6 +44,10 @@
             transform: scale(1.05);
         }
 
+        .top-logo.attention {
+            animation: attentionPulse 1.5s ease-in-out 3;
+        }
+
         body:has(.intro-video-container.visible) .top-logo {
             opacity: 0;
             pointer-events: none;
@@ -104,16 +108,27 @@
             }
         }
 
-        /* Pointer arrow */
-        .pointer-arrow {
+        /* Pointer arrows */
+        .pointer-arrow-right {
             position: fixed;
             top: 1rem;
             right: 14rem;
             z-index: 2999;
-            font-size: 3rem;
+            font-size: 4rem;
             opacity: 0;
             pointer-events: none;
             animation: pointAndFade 4s ease-in-out forwards;
+        }
+
+        .pointer-arrow-left {
+            position: fixed;
+            top: 1rem;
+            left: 14rem;
+            z-index: 2999;
+            font-size: 4rem;
+            opacity: 0;
+            pointer-events: none;
+            animation: pointAndFadeLeft 4s ease-in-out forwards;
         }
 
         @keyframes pointAndFade {
@@ -128,6 +143,21 @@
             90%, 100% {
                 opacity: 0;
                 transform: translateX(-20px);
+            }
+        }
+
+        @keyframes pointAndFadeLeft {
+            0%, 10% {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            20%, 80% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            90%, 100% {
+                opacity: 0;
+                transform: translateX(20px);
             }
         }
 
@@ -1968,7 +1998,7 @@
         }
 
         function triggerAttentionEffect() {
-            console.log('Drawing attention to Work With Us button!');
+            console.log('Drawing attention to Work With Us button and Logo!');
             
             // Remove before-animation class
             floatingWorkBtn.classList.remove('before-animation');
@@ -1976,19 +2006,33 @@
             // Make sure button is visible
             floatingWorkBtn.classList.remove('hidden');
             
-            // Add attention class for pulsing animation
+            // Add attention class for pulsing animation to BOTH button and logo
             floatingWorkBtn.classList.add('attention');
+            const logo = document.querySelector('.top-logo');
+            if (logo) {
+                logo.classList.add('attention');
+            }
             
-            // Create pointer arrow
-            const arrow = document.createElement('div');
-            arrow.className = 'pointer-arrow';
-            arrow.innerHTML = '👉';
-            document.body.appendChild(arrow);
+            // Create pointer arrow for Work With Us button (pointing right to left)
+            const arrowRight = document.createElement('div');
+            arrowRight.className = 'pointer-arrow-right';
+            arrowRight.innerHTML = '👉';
+            document.body.appendChild(arrowRight);
             
-            // Remove attention class after animation completes
+            // Create pointer arrow for Logo (pointing left to right)
+            const arrowLeft = document.createElement('div');
+            arrowLeft.className = 'pointer-arrow-left';
+            arrowLeft.innerHTML = '👈';
+            document.body.appendChild(arrowLeft);
+            
+            // Remove attention classes and arrows after animation completes
             setTimeout(() => {
                 floatingWorkBtn.classList.remove('attention');
-                arrow.remove();
+                if (logo) {
+                    logo.classList.remove('attention');
+                }
+                arrowRight.remove();
+                arrowLeft.remove();
             }, 4500);
         }
     </script>
