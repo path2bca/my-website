@@ -1489,8 +1489,12 @@
                         // Hide container when scrolled significantly away from video section
                         if (videoSectionRect.bottom < 0 || videoSectionRect.top > window.innerHeight) {
                             videoContainer.style.display = 'none';
+                            videoContainer.style.visibility = 'hidden';
+                            videoContainer.style.opacity = '0';
                         } else {
                             videoContainer.style.display = 'block';
+                            videoContainer.style.visibility = 'visible';
+                            videoContainer.style.opacity = '1';
                         }
                     }
                 });
