@@ -1427,6 +1427,13 @@
                                                     });
                                                 }
                                             }
+                                            
+                                            // Unlock scrolling 3 seconds after volume reminder finishes
+                                            setTimeout(() => {
+                                                document.body.classList.remove('locked');
+                                                const lock = document.querySelector('.page-lock');
+                                                if (lock) lock.remove();
+                                            }, 3000);
                                         }, 500);
                                     }, 3000);
                                 }
