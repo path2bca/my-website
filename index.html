@@ -129,6 +129,69 @@
             display: block;
         }
 
+        /* Disclaimer Modal */
+        .disclaimer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .disclaimer-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .disclaimer-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .disclaimer-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .disclaimer-text {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .disclaimer-button {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .disclaimer-button:hover {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
         .top-nav {
             position: fixed;
             top: 2rem;
@@ -1055,6 +1118,15 @@
     </style>
 </head>
 <body>
+    <!-- Disclaimer Modal -->
+    <div class="disclaimer-modal" id="disclaimerModal">
+        <div class="disclaimer-content">
+            <h2 class="disclaimer-title">Important Notice</h2>
+            <p class="disclaimer-text">This website is not affiliated with Bergen County Academies. We are an independent tutoring service created by BCA students and alumni.</p>
+            <button class="disclaimer-button" id="disclaimerButton">I Understand</button>
+        </div>
+    </div>
+
     <!-- Freeze Overlay -->
     <div class="freeze-overlay" id="freezeOverlay"></div>
 
@@ -1071,7 +1143,6 @@
         <div class="grid-overlay" id="heroGrid"></div>
         <div class="hero-content">
             <h1 class="slogan">Why not learn from the people who actually got in?</h1>
-            <p class="disclaimer">Not affiliated with Bergen County Academies</p>
         </div>
     </section>
 
@@ -1224,6 +1295,23 @@
     </section>
 
     <script>
+        // Disclaimer Modal
+        const disclaimerModal = document.getElementById('disclaimerModal');
+        const disclaimerButton = document.getElementById('disclaimerButton');
+        
+        if (disclaimerButton) {
+            disclaimerButton.addEventListener('click', () => {
+                disclaimerModal.classList.add('hidden');
+                // Store in sessionStorage so it doesn't show again during this session
+                sessionStorage.setItem('disclaimerAccepted', 'true');
+            });
+        }
+
+        // Check if disclaimer was already accepted in this session
+        if (sessionStorage.getItem('disclaimerAccepted') === 'true') {
+            disclaimerModal.classList.add('hidden');
+        }
+
         // Smooth scrolling grid animations
         let scrollY = 0;
         let currentScrollY = 0;
