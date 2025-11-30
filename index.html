@@ -314,13 +314,7 @@
             opacity: 0;
         }
 
-        /* CTA row below video */
-        .cta-row { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem; }
-        .cta-button { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 999px; padding: 0.8rem 1.4rem; font-size: 1rem; box-shadow: 0 10px 30px rgba(99,102,241,0.3); cursor: pointer; }
-        .cursor-anim { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #0ea5e9; box-shadow: 0 0 0 6px rgba(14,165,233,0.15); position: relative; animation: cursorMove 3.5s ease-in-out infinite; }
-        @keyframes cursorMove { 0% { transform: translate(0,0) scale(1);} 40% { transform: translate(40px,-8px) scale(1);} 50% { transform: translate(40px,-8px) scale(0.92);} 60% { transform: translate(40px,-8px) scale(1);} 100% { transform: translate(0,0) scale(1);} }
-        .click-pulse { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin-left: -3px; margin-top: -3px; background: #0ea5e9; border-radius: 50%; animation: pulse 1.8s ease-out infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(14,165,233,0.6);} 100% { box-shadow: 0 0 0 12px rgba(14,165,233,0);} }
+        /* legacy cursor styles removed in favor of auto-cursor */
 
         /* Temporary "coming soon" overlay */
         .coming-soon { position: absolute; inset: 40px 0 0 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); color: #fff; font-size: 1.1rem; opacity: 0; transition: opacity 0.4s ease; }
@@ -352,6 +346,14 @@
             border-bottom: 18px solid transparent;
             margin-left: 8px;
         }
+
+        /* CTA section under hero */
+        .cta-under-hero { background: #ffffff; padding: 1.25rem 1rem; display: flex; justify-content: center; }
+        .cta-row { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+        .cta-button { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 999px; padding: 0.9rem 1.6rem; font-size: 1.15rem; box-shadow: 0 10px 30px rgba(99,102,241,0.3); cursor: pointer; position: relative; overflow: hidden; border: 2px solid rgba(99,102,241,0.35); }
+        .cta-button.clicked::after { content:''; position:absolute; left:50%; top:50%; width:12px; height:12px; background: rgba(255,255,255,0.85); border-radius:50%; transform: translate(-50%,-50%) scale(0.2); animation: ripple 0.6s ease-out forwards; }
+        @keyframes ripple { to { opacity: 0; transform: translate(-50%,-50%) scale(6); } }
+        .auto-cursor { position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #0ea5e9; box-shadow: 0 0 0 6px rgba(14,165,233,0.15); pointer-events: none; transform: translate(-120px, 20px); transition: transform 1.2s cubic-bezier(.22,1,.36,1); z-index: 1000; }
 
         /* Problem Section */
         .problem {
@@ -589,11 +591,7 @@
             <h1 class="slogan">Why not learn from the people who actually got in?</h1>
             <p class="subtext">REAL students, REAL affordability.</p>
             <p class="disclaimer">Not affiliated with Bergen County Academies</p>
-            <!-- CTA moved under hero text -->
-            <div class="cta-row" style="margin-top: 1.25rem;">
-                <button class="cta-button" id="ctaGetIntoBca" style="font-size:1.1rem;padding:0.9rem 1.6rem;border:2px solid rgba(255,255,255,0.6)">Get into BCA</button>
-                <div class="cursor-anim"><div class="click-pulse"></div></div>
-            </div>
+            
         </div>
         <div class="scroll-indicator">
             <svg width="30" height="50" viewBox="0 0 30 50" fill="none" stroke="#3b82f6" stroke-width="2">
@@ -602,6 +600,13 @@
                     <animate attributeName="cy" from="15" to="30" dur="1.5s" repeatCount="indefinite"/>
                 </circle>
             </svg>
+        </div>
+    </section>
+
+    <!-- CTA Section directly under hero in white space -->
+    <section class="cta-under-hero">
+        <div class="cta-row">
+            <button class="cta-button" id="ctaGetIntoBca">Get into BCA</button>
         </div>
     </section>
 
@@ -651,18 +656,13 @@
         </div>
     </section>
 
-    <!-- Demo Section -->
-    <section class="section demo">
+    <!-- Hero Section -->
+    <section class="section hero">
         <div class="grid-overlay" id="demoGrid"></div>
         <h2 class="demo-header">See How We Teach</h2>
         <div class="video-grid">
             <div class="video-card" data-index="0">
                 <div class="video-placeholder">
-                    <div class="play-icon"></div>
-                </div>
-                <div class="video-info">
-                    <div class="video-title">Math Problem Solving</div>
-                    <div class="video-description">Quick tips on tackling complex equations</div>
                 </div>
             </div>
             <div class="video-card" data-index="1">
@@ -773,12 +773,40 @@
             });
         }
 
-        // Simulated CTA click → show temporary overlay (no real video yet)
+        // CTA click → scroll to video and play if present; else show 'coming soon'
         const cta = document.getElementById('ctaGetIntoBca');
         if (cta) {
             cta.addEventListener('click', () => {
-                comingSoon.classList.add('show');
-                setTimeout(() => { comingSoon.classList.remove('show'); }, 2000);
+                cta.classList.add('clicked');
+                setTimeout(()=>cta.classList.remove('clicked'), 700);
+                const container = document.querySelector('.intro-video-container');
+                if (container && introVideo) {
+                    container.classList.add('visible');
+                    container.classList.add('playing');
+                    try { introVideo.muted = true; introVideo.play(); } catch(e){}
+                    container.scrollIntoView({behavior:'smooth', block:'center'});
+                } else {
+                    comingSoon.classList.add('show');
+                    setTimeout(() => { comingSoon.classList.remove('show'); }, 2000);
+                }
+            });
+
+            // Auto cursor: animate to button and auto-click after load
+            window.addEventListener('load', () => {
+                const autoCursor = document.createElement('div');
+                autoCursor.className = 'auto-cursor';
+                document.body.appendChild(autoCursor);
+                const moveToButton = () => {
+                    const rect = cta.getBoundingClientRect();
+                    const targetX = rect.left + rect.width * 0.8;
+                    const targetY = window.scrollY + rect.top + rect.height * 0.4;
+                    autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                    setTimeout(() => { cta.click(); }, 1300);
+                    // remove cursor after click
+                    setTimeout(() => { autoCursor.remove(); }, 2200);
+                };
+                // slight delay so layout is settled
+                setTimeout(moveToButton, 900);
             });
         }
 
