@@ -234,7 +234,6 @@
             z-index: 300;
             opacity: 1;
             transition: opacity 0.5s ease;
-            padding: 2rem;
         }
 
         .zoom-join-screen.hidden {
@@ -1235,6 +1234,9 @@
                 // Wait for cursor to be available
                 await getCursor();
                 
+                // Move cursor directly to first key without hovering over Enter
+                // Will start with 'B' key
+                
                 // First attempt: BT (fails)
                 const typeSequence = [
                     { text: 'BT', delay: 500, success: false },
@@ -1318,7 +1320,8 @@
                         }
                     };
                     
-                    setTimeout(typeChar, 800);
+                    // Start typing immediately without initial delay
+                    setTimeout(typeChar, 100);
                 };
                 
                 tryPassword();
@@ -1332,58 +1335,61 @@
                 zoomJoinBtn.textContent = 'Entering...';
                 zoomConnecting.classList.add('active');
                 
-                // After 1.5s, fade out join screen and show video chrome
+                // After 1.5s, fade out join screen
                 setTimeout(() => {
                     zoomJoinScreen.classList.add('hidden');
-                    if (videoChrome) {
-                        videoChrome.classList.add('visible');
-                    }
                     
-                    // After join screen fades, move cursor to play button and click
+                    // Move cursor to center of screen and click
                     setTimeout(() => {
-                        const playBtn = document.querySelector('.video-play-button');
-                        const video = document.querySelector('.intro-video');
-                        
-                        if (playBtn && typingCursor) {
-                            // Move cursor to play button
-                            const playRect = playBtn.getBoundingClientRect();
-                            const playX = playRect.left + playRect.width / 2;
-                            const playY = window.scrollY + playRect.top + playRect.height / 2;
-                            typingCursor.style.transform = `translate(${playX}px, ${playY}px)`;
+                        if (typingCursor) {
+                            // Get center of viewport
+                            const centerX = window.innerWidth / 2;
+                            const centerY = window.scrollY + window.innerHeight / 2;
+                            typingCursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
                             
-                            // Wait, then remove cursor and play video
+                            // Click and remove cursor, then show video
                             setTimeout(() => {
-                                // Remove cursor first
+                                // Remove cursor
                                 if (typingCursor) {
                                     typingCursor.remove();
                                     typingCursor = null;
                                 }
                                 
-                                // Then click play after cursor is gone
+                                // Show video chrome
+                                if (videoChrome) {
+                                    videoChrome.classList.add('visible');
+                                }
+                                
+                                // Auto-play video
                                 setTimeout(() => {
-                                    playBtn.click();
+                                    const playBtn = document.querySelector('.video-play-button');
+                                    const video = document.querySelector('.intro-video');
                                     
-                                    // Prevent skipping for first 5 seconds
-                                    if (video) {
-                                        let canSkip = false;
-                                        const preventSkip = (e) => {
-                                            if (!canSkip && video.currentTime > 0.1) {
-                                                e.preventDefault();
-                                                video.currentTime = 0;
-                                            }
-                                        };
-                                        video.addEventListener('seeking', preventSkip);
-                                        video.addEventListener('timeupdate', () => {
-                                            if (video.currentTime >= 5) {
-                                                canSkip = true;
-                                                video.removeEventListener('seeking', preventSkip);
-                                            }
-                                        });
+                                    if (playBtn) {
+                                        playBtn.click();
+                                        
+                                        // Prevent skipping for first 5 seconds
+                                        if (video) {
+                                            let canSkip = false;
+                                            const preventSkip = (e) => {
+                                                if (!canSkip && video.currentTime > 0.1) {
+                                                    e.preventDefault();
+                                                    video.currentTime = 0;
+                                                }
+                                            };
+                                            video.addEventListener('seeking', preventSkip);
+                                            video.addEventListener('timeupdate', () => {
+                                                if (video.currentTime >= 5) {
+                                                    canSkip = true;
+                                                    video.removeEventListener('seeking', preventSkip);
+                                                }
+                                            });
+                                        }
                                     }
-                                }, 200);
-                            }, 800);
+                                }, 300);
+                            }, 600);
                         }
-                    }, 600);
+                    }, 500);
                 }, 1500);
             });
             
