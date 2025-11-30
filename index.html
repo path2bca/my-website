@@ -105,7 +105,7 @@
             animation: fadeInUp 1s 0.9s forwards;
             color: #94a3b8;
             font-style: italic;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .disclaimer.sticky {
@@ -1435,25 +1435,37 @@
         // Sticky disclaimer behavior
         const disclaimer = document.querySelector('.disclaimer');
         if (disclaimer) {
-            let disclaimerOriginalTop = null;
+            let isSticky = false;
             
-            window.addEventListener('scroll', () => {
-                // Get the original position on first scroll
-                if (disclaimerOriginalTop === null && disclaimer.offsetTop > 0) {
-                    disclaimerOriginalTop = disclaimer.offsetTop;
-                }
+            const checkStickyPosition = () => {
+                const rect = disclaimer.getBoundingClientRect();
+                const shouldBeSticky = rect.top <= 0;
                 
-                if (disclaimerOriginalTop !== null) {
-                    const scrollTop = window.scrollY || window.pageYOffset;
-                    
-                    // Make sticky when scrolled past the disclaimer
-                    if (scrollTop >= disclaimerOriginalTop) {
+                // Only toggle class if state actually changed
+                if (shouldBeSticky !== isSticky) {
+                    isSticky = shouldBeSticky;
+                    if (isSticky) {
                         disclaimer.classList.add('sticky');
                     } else {
                         disclaimer.classList.remove('sticky');
                     }
                 }
+            };
+            
+            // Use requestAnimationFrame for smooth, precise updates
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        checkStickyPosition();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
             });
+            
+            // Initial check
+            checkStickyPosition();
         }
 
         function animateShapes() {
