@@ -1302,14 +1302,7 @@
         if (disclaimerButton) {
             disclaimerButton.addEventListener('click', () => {
                 disclaimerModal.classList.add('hidden');
-                // Store in sessionStorage so it doesn't show again during this session
-                sessionStorage.setItem('disclaimerAccepted', 'true');
             });
-        }
-
-        // Check if disclaimer was already accepted in this session
-        if (sessionStorage.getItem('disclaimerAccepted') === 'true') {
-            disclaimerModal.classList.add('hidden');
         }
 
         // Smooth scrolling grid animations
