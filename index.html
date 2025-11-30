@@ -148,10 +148,10 @@
 
         .intro-video-container {
             position: relative;
-            width: 95%;
-            max-width: 1600px;
-            margin: 0 auto;
-            border-radius: 12px;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            border-radius: 0;
             overflow: hidden;
             opacity: 0;
             transform: scale(0.9) translateY(60px);
@@ -161,7 +161,6 @@
                 0 0 0 1px rgba(0, 0, 0, 0.1),
                 0 40px 120px rgba(59, 130, 246, 0.45);
             display: none;
-            min-height: 600px;
         }
 
         .intro-video-container.visible {
@@ -307,9 +306,9 @@
         }
 
         .password-input {
-            width: 350px;
-            padding: 1rem 1.5rem;
-            font-size: 1.2rem;
+            width: 450px;
+            padding: 1.2rem 1.8rem;
+            font-size: 1.5rem;
             background: #1e293b;
             border: 2px solid #334155;
             border-radius: 8px;
@@ -364,6 +363,44 @@
 
         .zoom-connecting.active {
             display: block;
+        }
+
+        /* Virtual Keyboard */
+        .virtual-keyboard {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+            max-width: 650px;
+            opacity: 0.6;
+        }
+
+        .key {
+            background: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.15s ease;
+        }
+
+        .key.active {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .key.delete {
+            grid-column: span 2;
+            background: #dc2626;
+        }
+
+        .key.delete.active {
+            background: #ef4444;
         }
 
         .intro-video-wrapper {
@@ -865,6 +902,37 @@
                     </div>
                     <button class="zoom-join-button" id="zoomJoinBtn">Enter</button>
                     <div class="zoom-connecting" id="zoomConnecting">Loading experience...</div>
+                    
+                    <!-- Virtual Keyboard -->
+                    <div class="virtual-keyboard" id="virtualKeyboard">
+                        <div class="key" data-key="Q">Q</div>
+                        <div class="key" data-key="W">W</div>
+                        <div class="key" data-key="E">E</div>
+                        <div class="key" data-key="R">R</div>
+                        <div class="key" data-key="T">T</div>
+                        <div class="key" data-key="Y">Y</div>
+                        <div class="key" data-key="U">U</div>
+                        <div class="key" data-key="I">I</div>
+                        <div class="key" data-key="O">O</div>
+                        <div class="key" data-key="P">P</div>
+                        <div class="key" data-key="A">A</div>
+                        <div class="key" data-key="S">S</div>
+                        <div class="key" data-key="D">D</div>
+                        <div class="key" data-key="F">F</div>
+                        <div class="key" data-key="G">G</div>
+                        <div class="key" data-key="H">H</div>
+                        <div class="key" data-key="J">J</div>
+                        <div class="key" data-key="K">K</div>
+                        <div class="key" data-key="L">L</div>
+                        <div class="key delete" data-key="DELETE">DELETE</div>
+                        <div class="key" data-key="Z">Z</div>
+                        <div class="key" data-key="X">X</div>
+                        <div class="key" data-key="C">C</div>
+                        <div class="key" data-key="V">V</div>
+                        <div class="key" data-key="B">B</div>
+                        <div class="key" data-key="N">N</div>
+                        <div class="key" data-key="M">M</div>
+                    </div>
                 </div>
 
                 <div class="intro-video-wrapper">
@@ -1104,8 +1172,10 @@
                     document.body.appendChild(autoCursor);
                     
                     const moveToButton = () => {
-                        const targetX = rect.left + rect.width / 2;
-                        const targetY = window.scrollY + rect.top + rect.height / 2;
+                        // Recalculate rect right before positioning
+                        const liveRect = cta.getBoundingClientRect();
+                        const targetX = liveRect.left + liveRect.width / 2;
+                        const targetY = window.scrollY + liveRect.top + liveRect.height / 2;
                         autoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
                         setTimeout(() => { 
                             cta.click(); 
@@ -1129,12 +1199,21 @@
         const accessMessage = document.getElementById('accessMessage');
         
         if (zoomJoinBtn && zoomJoinScreen && passwordInput) {
+            // Helper function to highlight keyboard key
+            const highlightKey = (key) => {
+                const keyElement = document.querySelector(`.key[data-key="${key}"]`);
+                if (keyElement) {
+                    keyElement.classList.add('active');
+                    setTimeout(() => keyElement.classList.remove('active'), 200);
+                }
+            };
+            
             // Auto-type password sequence
             const autoTypePassword = () => {
                 // First attempt: BT (fails)
                 const typeSequence = [
-                    { text: 'BT', delay: 400, success: false },
-                    { text: 'BCA', delay: 400, success: true }
+                    { text: 'BT', delay: 500, success: false },
+                    { text: 'BCA', delay: 500, success: true }
                 ];
                 
                 let attemptIndex = 0;
@@ -1151,7 +1230,9 @@
                     let charIndex = 0;
                     const typeChar = () => {
                         if (charIndex < attempt.text.length) {
-                            passwordInput.value += attempt.text[charIndex];
+                            const char = attempt.text[charIndex];
+                            passwordInput.value += char;
+                            highlightKey(char);
                             charIndex++;
                             setTimeout(typeChar, attempt.delay);
                         } else {
@@ -1170,11 +1251,25 @@
                                     accessMessage.textContent = 'ACCESS DENIED. Please try again.';
                                     accessMessage.className = 'access-message error';
                                     
-                                    // Try next password after delay
+                                    // Delete the failed password character by character
                                     setTimeout(() => {
-                                        attemptIndex++;
-                                        tryPassword();
-                                    }, 1500);
+                                        let deleteIndex = passwordInput.value.length;
+                                        const deleteChar = () => {
+                                            if (deleteIndex > 0) {
+                                                highlightKey('DELETE');
+                                                passwordInput.value = passwordInput.value.slice(0, -1);
+                                                deleteIndex--;
+                                                setTimeout(deleteChar, 200);
+                                            } else {
+                                                // After deleting, try next password
+                                                setTimeout(() => {
+                                                    attemptIndex++;
+                                                    tryPassword();
+                                                }, 800);
+                                            }
+                                        };
+                                        deleteChar();
+                                    }, 1000);
                                 }
                             }, 500);
                         }
