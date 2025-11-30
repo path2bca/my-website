@@ -176,9 +176,10 @@
 
         /* Video Intro Section - Dynamic Popup */
         .video-intro {
-            background: #ffffff;
+            background: #232323;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
         }
 
         .video-intro-content {
@@ -186,16 +187,13 @@
             z-index: 2;
             width: 100%;
             text-align: center;
+            min-height: 100vh;
         }
 
         .intro-video-container {
-            position: fixed;
-            width: 100vw;
+            position: relative;
+            width: 100%;
             height: 100vh;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
             margin: 0;
             padding: 0;
             border-radius: 0;
@@ -208,7 +206,6 @@
                 0 0 0 1px rgba(0, 0, 0, 0.1),
                 0 40px 120px rgba(59, 130, 246, 0.45);
             display: none;
-            z-index: 5000;
         }
 
         .intro-video-container.visible {
@@ -1501,35 +1498,6 @@
             const videoContainer = document.querySelector('.intro-video-container');
             if (videoContainer) {
                 observer.observe(videoContainer, { attributes: true, attributeFilter: ['class'] });
-                
-                // Hide video container when scrolling away from video section
-                let videoPlayed = false;
-                const videoSection = document.querySelector('.video-intro');
-                
-                window.addEventListener('scroll', () => {
-                    if (!videoContainer.classList.contains('visible')) return;
-                    
-                    const video = document.querySelector('.intro-video');
-                    if (video && video.played.length > 0) {
-                        videoPlayed = true;
-                    }
-                    
-                    // Only allow hiding after video has started playing and scrolling is unlocked
-                    if (videoPlayed && !document.body.classList.contains('locked')) {
-                        const videoSectionRect = videoSection.getBoundingClientRect();
-                        
-                        // Hide container when scrolled significantly away from video section
-                        if (videoSectionRect.bottom < 0 || videoSectionRect.top > window.innerHeight) {
-                            videoContainer.style.display = 'none';
-                            videoContainer.style.visibility = 'hidden';
-                            videoContainer.style.opacity = '0';
-                        } else {
-                            videoContainer.style.display = 'block';
-                            videoContainer.style.visibility = 'visible';
-                            videoContainer.style.opacity = '1';
-                        }
-                    }
-                });
             }
         }
 
