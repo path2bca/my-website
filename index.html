@@ -152,18 +152,20 @@
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: scale(0.9) translateY(60px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             background: #1a1a1a;
             box-shadow: 
                 0 0 0 1px rgba(0, 0, 0, 0.1),
                 0 40px 120px rgba(59, 130, 246, 0.45);
+            display: none;
         }
 
         .intro-video-container.visible {
             opacity: 1;
             transform: scale(1) translateY(0);
+            display: block;
         }
 
         /* High-tech animated border */
@@ -720,24 +722,6 @@
 
         animateGrids();
 
-        // Video intro scroll animation
-        const videoIntroObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    videoIntroObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px'
-        });
-
-        const introVideoContainer = document.querySelector('.intro-video-container');
-        if (introVideoContainer) {
-            videoIntroObserver.observe(introVideoContainer);
-        }
-
         // Video auto-play and interaction
         const introVideo = document.querySelector('.intro-video');
         const videoPlayButton = document.querySelector('.video-play-button');
@@ -772,7 +756,7 @@
             });
         }
 
-        // CTA click → scroll to video section and trigger play with second cursor
+        // CTA click → show video, scroll to it, and trigger play with second cursor
         const cta = document.getElementById('ctaGetIntoBca');
         if (cta) {
             cta.addEventListener('click', () => {
@@ -783,42 +767,45 @@
                 const videoContainer = document.querySelector('.intro-video-container');
                 
                 if (videoSection && videoContainer) {
-                    // Scroll to video section
-                    videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Make video visible
+                    // Make video visible immediately
                     videoContainer.classList.add('visible');
+                    videoContainer.style.display = 'block';
                     
-                    // After scroll completes, show second cursor to click play button
+                    // Small delay then scroll to video section
                     setTimeout(() => {
-                        const playBtn = videoContainer.querySelector('.video-play-button');
-                        if (playBtn) {
-                            // Second cursor appears and moves to play button
-                            const videoCursor = document.createElement('div');
-                            videoCursor.className = 'auto-cursor';
-                            videoCursor.innerHTML = `
-                              <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
-                              </svg>`;
-                            document.body.appendChild(videoCursor);
-                            
-                            const playBtnRect = playBtn.getBoundingClientRect();
-                            const targetX = playBtnRect.left + playBtnRect.width / 2;
-                            const targetY = window.scrollY + playBtnRect.top + playBtnRect.height / 2;
-                            videoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
-                            
-                            setTimeout(() => {
-                                playBtn.click();
+                        videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // After scroll completes, show second cursor to click play button
+                        setTimeout(() => {
+                            const playBtn = videoContainer.querySelector('.video-play-button');
+                            if (playBtn) {
+                                // Second cursor appears and moves to play button
+                                const videoCursor = document.createElement('div');
+                                videoCursor.className = 'auto-cursor';
+                                videoCursor.innerHTML = `
+                                  <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5"/>
+                                  </svg>`;
+                                document.body.appendChild(videoCursor);
+                                
+                                const playBtnRect = playBtn.getBoundingClientRect();
+                                const targetX = playBtnRect.left + playBtnRect.width / 2;
+                                const targetY = window.scrollY + playBtnRect.top + playBtnRect.height / 2;
+                                videoCursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                                
                                 setTimeout(() => {
-                                    videoCursor.remove();
-                                    // Unfreeze page
-                                    document.body.classList.remove('locked');
-                                    const lock = document.querySelector('.page-lock');
-                                    if (lock) lock.remove();
-                                }, 600);
-                            }, 800);
-                        }
-                    }, 1000);
+                                    playBtn.click();
+                                    setTimeout(() => {
+                                        videoCursor.remove();
+                                        // Unfreeze page
+                                        document.body.classList.remove('locked');
+                                        const lock = document.querySelector('.page-lock');
+                                        if (lock) lock.remove();
+                                    }, 600);
+                                }, 800);
+                            }
+                        }, 1000);
+                    }, 100);
                 }
             });
 
