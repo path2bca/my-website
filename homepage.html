@@ -1399,6 +1399,12 @@
                                 // Show volume reminder for 3 seconds
                                 const volumeReminder = document.getElementById('volumeReminder');
                                 if (volumeReminder) {
+                                    // Hide the play button immediately
+                                    const playBtn = document.querySelector('.video-play-button');
+                                    if (playBtn) {
+                                        playBtn.style.display = 'none';
+                                    }
+                                    
                                     // Show reminder
                                     setTimeout(() => {
                                         volumeReminder.classList.add('show');
