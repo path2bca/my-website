@@ -314,6 +314,18 @@
             opacity: 0;
         }
 
+        /* CTA row below video */
+        .cta-row { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem; }
+        .cta-button { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 999px; padding: 0.8rem 1.4rem; font-size: 1rem; box-shadow: 0 10px 30px rgba(99,102,241,0.3); cursor: pointer; }
+        .cursor-anim { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #0ea5e9; box-shadow: 0 0 0 6px rgba(14,165,233,0.15); position: relative; animation: cursorMove 3.5s ease-in-out infinite; }
+        @keyframes cursorMove { 0% { transform: translate(0,0) scale(1);} 40% { transform: translate(40px,-8px) scale(1);} 50% { transform: translate(40px,-8px) scale(0.92);} 60% { transform: translate(40px,-8px) scale(1);} 100% { transform: translate(0,0) scale(1);} }
+        .click-pulse { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin-left: -3px; margin-top: -3px; background: #0ea5e9; border-radius: 50%; animation: pulse 1.8s ease-out infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(14,165,233,0.6);} 100% { box-shadow: 0 0 0 12px rgba(14,165,233,0);} }
+
+        /* Temporary "coming soon" overlay */
+        .coming-soon { position: absolute; inset: 40px 0 0 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); color: #fff; font-size: 1.1rem; opacity: 0; transition: opacity 0.4s ease; }
+        .coming-soon.show { opacity: 1; }
+
         .video-play-button {
             width: 100px;
             height: 100px;
@@ -666,6 +678,10 @@
                 </div>
             </div>
         </div>
+        <div class="cta-row">
+            <button class="cta-button" id="ctaGetIntoBca">Get into BCA</button>
+            <div class="cursor-anim"><div class="click-pulse"></div></div>
+        </div>
     </section>
 
     <script>
@@ -724,6 +740,11 @@
         const introVideo = document.querySelector('.intro-video');
         const videoPlayButton = document.querySelector('.video-play-button');
         const videoOverlay = document.querySelector('.video-overlay');
+        const comingSoon = document.createElement('div');
+        comingSoon.className = 'coming-soon';
+        comingSoon.textContent = 'Video coming soon';
+        const introWrapper = document.querySelector('.intro-video-wrapper');
+        if (introWrapper) introWrapper.appendChild(comingSoon);
 
         if (videoPlayButton && introVideo) {
             videoPlayButton.addEventListener('click', () => {
@@ -746,6 +767,15 @@
                     introVideo.pause();
                     container.classList.remove('playing');
                 }
+            });
+        }
+
+        // Simulated CTA click → show temporary overlay (no real video yet)
+        const cta = document.getElementById('ctaGetIntoBca');
+        if (cta) {
+            cta.addEventListener('click', () => {
+                comingSoon.classList.add('show');
+                setTimeout(() => { comingSoon.classList.remove('show'); }, 2000);
             });
         }
 
