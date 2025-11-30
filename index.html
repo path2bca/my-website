@@ -53,6 +53,83 @@
             pointer-events: none;
         }
 
+        /* Floating Work With Us Button */
+        .floating-work-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 3000;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+            opacity: 1;
+        }
+
+        .floating-work-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .floating-work-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body:has(.intro-video-container.visible) .floating-work-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Animation states for CTA button */
+        .cta-button-large.animating {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(3);
+            z-index: 4000;
+            animation: pulsateAndMove 2s ease-in-out forwards;
+        }
+
+        @keyframes pulsateAndMove {
+            0% {
+                transform: translate(-50%, -50%) scale(3);
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(3.5);
+            }
+            60% {
+                transform: translate(-50%, -50%) scale(3);
+            }
+            100% {
+                transform: translate(calc(50vw - 2rem - 100%), -50vh + 2rem) scale(1);
+                top: 2rem;
+                right: 2rem;
+            }
+        }
+
+        /* Freeze overlay */
+        .freeze-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 3500;
+            display: none;
+        }
+
+        .freeze-overlay.active {
+            display: block;
+        }
+
         .top-nav {
             position: fixed;
             top: 2rem;
@@ -99,6 +176,11 @@
             color: #1e293b;
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease forwards;
+            transition: opacity 0.3s ease;
+        }
+
+        .cta-title.hidden {
+            opacity: 0;
         }
 
         .cta-subtitle {
@@ -106,6 +188,11 @@
             color: #64748b;
             margin-bottom: 3rem;
             animation: fadeInUp 0.8s 0.2s ease forwards;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cta-subtitle.hidden {
             opacity: 0;
         }
 
@@ -969,15 +1056,16 @@
     </style>
 </head>
 <body>
+    <!-- Freeze Overlay -->
+    <div class="freeze-overlay" id="freezeOverlay"></div>
+
     <!-- Top Logo -->
     <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
     </a>
 
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <a href="worked-with-us.html">Work With Us</a>
-    </nav>
+    <!-- Floating Work With Us Button -->
+    <a href="worked-with-us.html" class="floating-work-btn" id="floatingWorkBtn">Work With Us</a>
 
     <!-- Hero Section -->
     <section class="section hero">
@@ -1072,11 +1160,11 @@
     </section>
 
     <!-- Work With Us CTA -->
-    <section class="work-with-us-cta">
+    <section class="work-with-us-cta" id="workWithUsCta">
         <div class="cta-container">
-            <h2 class="cta-title">Ready to Get Into BCA?</h2>
-            <p class="cta-subtitle">See what our students have achieved</p>
-            <a href="worked-with-us.html" class="cta-button-large">Work With Us</a>
+            <h2 class="cta-title" id="ctaTitle">Ready to Get Into BCA?</h2>
+            <p class="cta-subtitle" id="ctaSubtitle">See what our students have achieved</p>
+            <a href="worked-with-us.html" class="cta-button-large" id="ctaButton">Work With Us</a>
         </div>
     </section>
 
@@ -1717,6 +1805,86 @@
         const videoGrid = document.querySelector('.video-grid');
         if (videoGrid) {
             cardObserver.observe(videoGrid);
+        }
+
+        // Work With Us Button Animation Logic
+        const floatingWorkBtn = document.getElementById('floatingWorkBtn');
+        const ctaButton = document.getElementById('ctaButton');
+        const ctaTitle = document.getElementById('ctaTitle');
+        const ctaSubtitle = document.getElementById('ctaSubtitle');
+        const freezeOverlay = document.getElementById('freezeOverlay');
+        const videoIntroContainer = document.querySelector('.intro-video-container');
+        
+        let workBtnAnimationTriggered = false;
+
+        // Intersection Observer to detect when CTA button reaches center of screen
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !workBtnAnimationTriggered) {
+                    workBtnAnimationTriggered = true;
+                    triggerWorkBtnAnimation();
+                }
+            });
+        }, {
+            threshold: 0.5,
+            rootMargin: '-50% 0px -50% 0px' // Triggers when button is centered
+        });
+
+        if (ctaButton) {
+            ctaObserver.observe(ctaButton);
+        }
+
+        function triggerWorkBtnAnimation() {
+            // Hide floating button
+            floatingWorkBtn.classList.add('hidden');
+            
+            // Hide title and subtitle
+            ctaTitle.classList.add('hidden');
+            ctaSubtitle.classList.add('hidden');
+            
+            // Show freeze overlay
+            freezeOverlay.classList.add('active');
+            
+            // Start animation on CTA button
+            ctaButton.classList.add('animating');
+            
+            // After animation completes (2s), show floating button and clean up
+            setTimeout(() => {
+                // Remove animation class
+                ctaButton.classList.remove('animating');
+                
+                // Hide the CTA button permanently
+                ctaButton.style.opacity = '0';
+                ctaButton.style.pointerEvents = 'none';
+                
+                // Show floating button (unless video is visible)
+                if (!videoIntroContainer.classList.contains('visible')) {
+                    floatingWorkBtn.classList.remove('hidden');
+                }
+                
+                // Remove freeze overlay
+                freezeOverlay.classList.remove('active');
+                
+                // Keep title/subtitle hidden
+            }, 2000);
+        }
+
+        // Handle scroll to hide/show floating button based on video visibility
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (workBtnAnimationTriggered) {
+                    // After animation, manage button visibility based on video
+                    if (entry.isIntersecting && videoIntroContainer.classList.contains('visible')) {
+                        floatingWorkBtn.classList.add('hidden');
+                    } else if (!videoIntroContainer.classList.contains('visible')) {
+                        floatingWorkBtn.classList.remove('hidden');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        if (videoIntroContainer) {
+            videoObserver.observe(videoIntroContainer);
         }
     </script>
 </body>
