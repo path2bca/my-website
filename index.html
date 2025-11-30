@@ -348,12 +348,12 @@
         }
 
         /* CTA section under hero */
-        .cta-under-hero { background: #ffffff; padding: 1.25rem 1rem; display: flex; justify-content: center; }
-        .cta-row { display: flex; justify-content: center; align-items: center; gap: 1rem; }
-        .cta-button { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 999px; padding: 0.9rem 1.6rem; font-size: 1.15rem; box-shadow: 0 10px 30px rgba(99,102,241,0.3); cursor: pointer; position: relative; overflow: hidden; border: 2px solid rgba(99,102,241,0.35); }
+        .cta-under-hero { background: #ffffff; padding: 2.75rem 1rem; display: flex; justify-content: center; }
+        .cta-row { display: flex; justify-content: center; align-items: center; gap: 1.25rem; }
+        .cta-button { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff; border: none; border-radius: 999px; padding: 1.3rem 2.4rem; font-size: 1.75rem; box-shadow: 0 16px 44px rgba(99,102,241,0.35); cursor: pointer; position: relative; overflow: hidden; border: 3px solid rgba(99,102,241,0.45); letter-spacing: 0.3px; }
         .cta-button.clicked::after { content:''; position:absolute; left:50%; top:50%; width:12px; height:12px; background: rgba(255,255,255,0.85); border-radius:50%; transform: translate(-50%,-50%) scale(0.2); animation: ripple 0.6s ease-out forwards; }
         @keyframes ripple { to { opacity: 0; transform: translate(-50%,-50%) scale(6); } }
-        .auto-cursor { position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #0ea5e9; box-shadow: 0 0 0 6px rgba(14,165,233,0.15); pointer-events: none; transform: translate(-120px, 20px); transition: transform 1.2s cubic-bezier(.22,1,.36,1); z-index: 1000; }
+        .auto-cursor { position: absolute; left: 0; top: 0; width: 28px; height: 28px; pointer-events: none; transform: translate(-120px, 20px); transition: transform 1.2s cubic-bezier(.22,1,.36,1); z-index: 1000; filter: drop-shadow(0 4px 8px rgba(14,165,233,0.35)); }
 
         /* Problem Section */
         .problem {
@@ -778,28 +778,72 @@
             });
         }
 
-        // CTA click → scroll to video and play if present; else show 'coming soon'
+        // CTA click → replace button inline with video (no scrolling)
         const cta = document.getElementById('ctaGetIntoBca');
         if (cta) {
             cta.addEventListener('click', () => {
                 cta.classList.add('clicked');
                 setTimeout(()=>cta.classList.remove('clicked'), 700);
-                const container = document.querySelector('.intro-video-container');
-                if (container && introVideo) {
-                    container.classList.add('visible');
-                    container.classList.add('playing');
-                    try { introVideo.muted = true; introVideo.play(); } catch(e){}
-                    container.scrollIntoView({behavior:'smooth', block:'center'});
-                } else {
-                    comingSoon.classList.add('show');
-                    setTimeout(() => { comingSoon.classList.remove('show'); }, 2000);
+                const ctaSection = document.querySelector('.cta-under-hero');
+                if (!ctaSection) return;
+
+                // Build an inline video container to replace the button
+                const sourceEl = document.querySelector('.intro-video source');
+                const src = sourceEl ? sourceEl.src : 'https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4607-large.mp4';
+
+                const inlineContainer = document.createElement('div');
+                inlineContainer.className = 'intro-video-container visible playing';
+                inlineContainer.innerHTML = `
+                    <div class="intro-video-wrapper">
+                        <div class="video-chrome">
+                            <div class="window-controls">
+                                <div class="window-dot close"></div>
+                                <div class="window-dot minimize"></div>
+                                <div class="window-dot maximize"></div>
+                            </div>
+                            <div class="video-title-bar">Path2BCA_Intro.mp4</div>
+                        </div>
+                        <video class="intro-video" muted playsinline>
+                            <source src="${src}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay"><div class="video-play-button"></div></div>
+                    </div>
+                `;
+
+                // Replace CTA content with video container
+                ctaSection.innerHTML = '';
+                ctaSection.appendChild(inlineContainer);
+
+                // Wire up play/pause behavior and auto-play
+                const inlineVideo = inlineContainer.querySelector('.intro-video');
+                const inlineOverlay = inlineContainer.querySelector('.video-overlay');
+                const inlinePlayBtn = inlineContainer.querySelector('.video-play-button');
+
+                function togglePlay() {
+                    if (inlineVideo.paused) {
+                        inlineVideo.play();
+                        inlineContainer.classList.add('playing');
+                    } else {
+                        inlineVideo.pause();
+                        inlineContainer.classList.remove('playing');
+                    }
                 }
+
+                inlinePlayBtn.addEventListener('click', togglePlay);
+                inlineVideo.addEventListener('click', togglePlay);
+
+                try { inlineVideo.muted = true; inlineVideo.play(); } catch(e){}
             });
 
             // Auto cursor: animate to button and auto-click after load
             window.addEventListener('load', () => {
                 const autoCursor = document.createElement('div');
                 autoCursor.className = 'auto-cursor';
+                autoCursor.innerHTML = `
+                  <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 2l7.5 14 1.4-4.6 4.6-1.4L3 2z" fill="#0ea5e9" stroke="#ffffff" stroke-width="1"/>
+                  </svg>`;
                 document.body.appendChild(autoCursor);
                 const moveToButton = () => {
                     const rect = cta.getBoundingClientRect();
