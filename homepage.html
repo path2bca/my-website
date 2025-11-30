@@ -836,17 +836,98 @@
             fadeObserver.observe(el);
         });
     </script>
-    <!-- Featured YouTube Video -->
+    <!-- Featured YouTube Video (lazy-load, privacy-enhanced) -->
     <section class="section demo featured-video">
         <div class="video-intro-content">
             <h2 class="demo-header">Featured Video</h2>
             <div style="max-width:900px;margin:1rem auto;">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                    <iframe src="https://www.youtube.com/embed/tMlbcCIAkWs" title="YouTube video: Path2BCA" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="yt-lite" data-video-id="tMlbcCIAkWs" style="border-radius:12px;overflow:hidden;">
+                    <button class="yt-lite-play" aria-label="Play video" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.2);">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto;">
+                            <path d="M8 5v14l11-7-11-7z" fill="#3b82f6"/>
+                        </svg>
+                    </button>
+                    <img class="yt-lite-poster" alt="Video poster" style="width:100%;height:auto;display:block;" src="https://img.youtube.com/vi/tMlbcCIAkWs/hqdefault.jpg">
                 </div>
+                <noscript>
+                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+                        <iframe src="https://www.youtube-nocookie.com/embed/tMlbcCIAkWs" title="YouTube video: Path2BCA" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </noscript>
                 <p style="text-align:center;color:#64748b;margin-top:0.5rem;font-size:0.95rem;">Watch on <a href="https://www.youtube.com/watch?v=tMlbcCIAkWs" target="_blank" rel="noopener">YouTube</a></p>
             </div>
         </div>
     </section>
+
+    <script>
+        // Simple lazy YouTube loader: replace poster with privacy-enhanced iframe on click
+        (function(){
+            function createIframe(id){
+                var iframe = document.createElement('iframe');
+                iframe.setAttribute('src','https://www.youtube-nocookie.com/embed/'+id+'?rel=0&modestbranding=1');
+                iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen','');
+                iframe.style.position='absolute';
+                iframe.style.top='0';
+                iframe.style.left='0';
+                iframe.style.width='100%';
+                iframe.style.height='100%';
+                iframe.style.border='0';
+                return iframe;
+            }
+
+            function initLite(el){
+                var id = el.dataset.videoId;
+                if(!id) return;
+                // wrap to preserve 16:9
+                var wrapper = document.createElement('div');
+                wrapper.style.position='relative';
+                wrapper.style.paddingBottom='56.25%';
+                wrapper.style.height='0';
+                wrapper.style.overflow='hidden';
+                wrapper.style.background='#000';
+                // move existing poster into wrapper
+                var poster = el.querySelector('.yt-lite-poster');
+                if(poster){
+                    poster.style.position='absolute';
+                    poster.style.top='0';
+                    poster.style.left='0';
+                    poster.style.width='100%';
+                    poster.style.height='100%';
+                    poster.style.objectFit='cover';
+                    wrapper.appendChild(poster);
+                }
+                var btn = el.querySelector('.yt-lite-play');
+                if(btn){
+                    btn.style.position='absolute';
+                    btn.style.zIndex='3';
+                    wrapper.appendChild(btn);
+                }
+                // clear and append wrapper
+                el.innerHTML='';
+                el.appendChild(wrapper);
+
+                el.addEventListener('click', function(){
+                    // insert iframe
+                    var iframe = createIframe(id);
+                    // remove poster and button
+                    el.innerHTML='';
+                    // position wrapper for iframe
+                    var pos = document.createElement('div');
+                    pos.style.position='relative';
+                    pos.style.paddingBottom='56.25%';
+                    pos.style.height='0';
+                    pos.style.overflow='hidden';
+                    pos.appendChild(iframe);
+                    el.appendChild(pos);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function(){
+                var lites = document.querySelectorAll('.yt-lite');
+                lites.forEach(function(el){ initLite(el); });
+            });
+        })();
+    </script>
 </body>
 </html>
