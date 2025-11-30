@@ -66,6 +66,10 @@
             opacity: 1;
         }
 
+        .floating-work-btn.before-animation {
+            opacity: 1;
+        }
+
         .floating-work-btn:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             transform: translateY(-3px);
@@ -1812,6 +1816,19 @@
         
         let workBtnAnimationTriggered = false;
 
+        // Show floating button initially, hide when scrolling starts
+        floatingWorkBtn.classList.add('before-animation');
+
+        // Hide floating button once user scrolls past hero
+        let hasScrolledPastHero = false;
+        window.addEventListener('scroll', () => {
+            if (!hasScrolledPastHero && window.scrollY > 100) {
+                hasScrolledPastHero = true;
+                floatingWorkBtn.classList.remove('before-animation');
+                floatingWorkBtn.classList.add('hidden');
+            }
+        });
+
         // Intersection Observer to detect when CTA button reaches center of screen
         const ctaObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1821,8 +1838,8 @@
                 }
             });
         }, {
-            threshold: 0.5,
-            rootMargin: '-50% 0px -50% 0px' // Triggers when button is centered
+            threshold: 1.0,
+            rootMargin: '0px'
         });
 
         if (ctaButton) {
@@ -1830,9 +1847,6 @@
         }
 
         function triggerWorkBtnAnimation() {
-            // Hide floating button
-            floatingWorkBtn.classList.add('hidden');
-            
             // Hide title and subtitle
             ctaTitle.classList.add('hidden');
             ctaSubtitle.classList.add('hidden');
