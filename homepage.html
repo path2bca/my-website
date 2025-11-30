@@ -1832,17 +1832,20 @@
         // Intersection Observer to detect when CTA button reaches center of screen
         const ctaObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !workBtnAnimationTriggered) {
+                console.log('CTA Button intersection:', entry.isIntersecting, 'ratio:', entry.intersectionRatio);
+                if (entry.isIntersecting && !workBtnAnimationTriggered && entry.intersectionRatio >= 0.5) {
+                    console.log('Triggering animation!');
                     workBtnAnimationTriggered = true;
                     triggerWorkBtnAnimation();
                 }
             });
         }, {
-            threshold: 1.0,
+            threshold: [0, 0.25, 0.5, 0.75, 1.0],
             rootMargin: '0px'
         });
 
         if (ctaButton) {
+            console.log('Setting up observer for CTA button');
             ctaObserver.observe(ctaButton);
         }
 
