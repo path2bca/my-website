@@ -243,8 +243,33 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .header-bar {
-                height: 100px;
+            .floating-buttons {
+                display: none;
+            }
+
+            .hamburger-menu {
+                padding: 15px;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .hamburger-menu span {
+                width: 35px;
+                height: 4px;
+            }
+
+            .hamburger-menu.open span:nth-child(1) {
+                transform: rotate(45deg) translate(11px, 11px);
+            }
+
+            .hamburger-menu.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(11px, -11px);
+            }
+
+            .mobile-menu a {
+                font-size: 2rem;
+                padding: 2rem 3rem;
+                max-width: 90%;
             }
 
             .top-logo {
@@ -273,6 +298,28 @@
 
             .page-subtitle {
                 font-size: 1.2rem;
+            }
+
+            .hamburger-menu {
+                padding: 12px;
+            }
+
+            .hamburger-menu span {
+                width: 30px;
+                height: 3px;
+            }
+
+            .hamburger-menu.open span:nth-child(1) {
+                transform: rotate(45deg) translate(9px, 9px);
+            }
+
+            .hamburger-menu.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(9px, -9px);
+            }
+
+            .mobile-menu a {
+                font-size: 1.5rem;
+                padding: 1.5rem 2rem;
             }
         }
     </style>
