@@ -48,12 +48,18 @@
             animation: attentionPulse 1.5s ease-in-out 3;
         }
 
-        /* Floating Work With Us Button */
-        .floating-work-btn {
+        /* Floating Buttons Container */
+        .floating-buttons {
             position: fixed;
             top: 2rem;
             right: 2rem;
             z-index: 3000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Floating Work With Us Button */
+        .floating-work-btn, .floating-who-btn {
             background: linear-gradient(135deg, #3b82f6, #6366f1);
             color: #ffffff;
             text-decoration: none;
@@ -66,17 +72,17 @@
             opacity: 1;
         }
 
-        .floating-work-btn.before-animation {
+        .floating-work-btn.before-animation, .floating-who-btn.before-animation {
             opacity: 1;
         }
 
-        .floating-work-btn:hover {
+        .floating-work-btn:hover, .floating-who-btn:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
         }
 
-        .floating-work-btn.hidden {
+        .floating-work-btn.hidden, .floating-who-btn.hidden {
             opacity: 0;
             pointer-events: none;
         }
@@ -785,8 +791,11 @@
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
     </a>
 
-    <!-- Floating Work With Us Button -->
-    <a href="worked-with-us.html" class="floating-work-btn" id="floatingWorkBtn">Work With Us</a>
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="who-are-we.html" class="floating-who-btn" id="floatingWhoBtn">Who Are We</a>
+        <a href="worked-with-us.html" class="floating-work-btn" id="floatingWorkBtn">Work With Us</a>
+    </div>
 
     <!-- Hero Section -->
     <section class="section hero">
