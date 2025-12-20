@@ -64,7 +64,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: all 0.3s ease;
-            animation: shake 3s ease-in-out infinite, pulseGlow 2s ease-in-out infinite;
+            animation: shake 1.5s ease-in-out infinite, pulseGlow 1.2s ease-in-out infinite;
             position: relative;
             z-index: 1000;
         }
@@ -498,14 +498,20 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px) rotate(-1deg); }
-            20%, 40%, 60%, 80% { transform: translateX(3px) rotate(1deg); }
+            0%, 100% { transform: translateX(0) rotate(0deg) scale(1); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-3deg) scale(1.05); }
+            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(3deg) scale(1.05); }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.3); }
-            50% { box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.5); }
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 10px 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.7), 0 0 80px rgba(59, 130, 246, 0.4);
+                transform: scale(1.08);
+            }
         }
 
         /* Video Intro Section - Dynamic Popup */
