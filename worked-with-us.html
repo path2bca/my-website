@@ -34,16 +34,17 @@
             transform: scale(1.05);
         }
 
-        .top-nav {
+        .floating-buttons {
             position: fixed;
             top: 2rem;
             right: 2rem;
             z-index: 3000;
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
         }
 
-        .top-nav a {
+        .floating-work-btn, .floating-who-btn, .floating-home-btn {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
             color: #ffffff;
             text-decoration: none;
             font-size: 1.5rem;
@@ -51,11 +52,10 @@
             padding: 1.25rem 2.5rem;
             border-radius: 12px;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
-        .top-nav a:hover {
+        .floating-work-btn:hover, .floating-who-btn:hover, .floating-home-btn:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
@@ -175,10 +175,12 @@
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
     </a>
 
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <a href="index.html">Back to Home</a>
-    </nav>
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="index.html" class="floating-home-btn">Back to Home</a>
+        <a href="who-are-we.html" class="floating-who-btn">Who Are We</a>
+        <a href="worked-with-us.html" class="floating-work-btn">Work With Us</a>
+    </div>
 
     <div class="container">
         <h1 class="page-title">Work With Us</h1>
