@@ -292,6 +292,10 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-top: 70px;
+            }
+
             .page-title {
                 font-size: 2.5rem;
             }
@@ -302,9 +306,8 @@
 
             .hamburger-menu {
                 padding: 15px;
-                border-top: 2px solid rgba(255, 255, 255, 0.2);
                 position: fixed;
-                background: rgba(15, 23, 42, 0.9);
+                background: rgba(15, 23, 42, 0.95);
                 width: 100%;
                 left: 0;
                 right: 0;
@@ -312,6 +315,7 @@
                 display: flex;
                 justify-content: flex-end;
                 padding-right: 1.5rem;
+                z-index: 3001;
             }
 
             .hamburger-menu span {
