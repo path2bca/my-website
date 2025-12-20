@@ -777,6 +777,47 @@
                 width: 60px !important;
                 height: 60px !important;
             }
+
+            .header-bar {
+                height: 100px;
+            }
+
+            .top-logo {
+                height: 80px;
+                top: 1rem;
+                left: 1rem;
+            }
+
+            .floating-buttons {
+                position: fixed;
+                left: 1rem;
+                right: 1rem;
+                top: auto;
+                bottom: 1rem;
+                height: auto;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .floating-work-btn, .floating-who-btn {
+                font-size: 1.2rem;
+                padding: 1rem 1.5rem;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-card:hover {
+                transform: scale(1.05) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .floating-work-btn, .floating-who-btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.2rem;
+            }
         }
     </style>
 </head>

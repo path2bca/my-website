@@ -195,8 +195,14 @@
             }
 
             .floating-buttons {
-                flex-direction: column;
-                gap: 0.5rem;
+                position: fixed;
+                left: 1rem;
+                right: 1rem;
+                top: auto;
+                bottom: 1rem;
+                height: auto;
+                justify-content: center;
+                flex-wrap: wrap;
             }
 
             .floating-work-btn, .floating-who-btn {
@@ -204,8 +210,29 @@
                 padding: 1rem 2rem;
             }
 
+            .header-bar {
+                height: 100px;
+            }
+
+            .top-logo {
+                height: 80px;
+                top: 1rem;
+                left: 1rem;
+            }
+
             .team-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .floating-work-btn, .floating-who-btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.2rem;
             }
         }
     </style>
