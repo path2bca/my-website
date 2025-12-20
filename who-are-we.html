@@ -110,16 +110,19 @@
         }
 
         .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
             margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .team-member {
             background: white;
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 3rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             text-align: center;
@@ -131,8 +134,8 @@
         }
 
         .member-photo {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background: linear-gradient(135deg, #e0f2fe, #bae6fd);
             margin: 0 auto 1.5rem;
@@ -140,14 +143,14 @@
         }
 
         .member-name {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
         .member-role {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #3b82f6;
             font-weight: 600;
             margin-bottom: 1rem;
