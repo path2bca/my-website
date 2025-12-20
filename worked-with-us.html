@@ -37,10 +37,12 @@
         .floating-buttons {
             position: fixed;
             top: 2rem;
-            right: 2rem;
+            left: 2rem;
             z-index: 3000;
             display: flex;
+            flex-direction: column;
             gap: 1rem;
+            margin-top: 140px;
         }
 
         .floating-work-btn, .floating-who-btn, .floating-home-btn {
@@ -177,8 +179,8 @@
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <a href="index.html" class="floating-home-btn">Back to Home</a>
         <a href="who-are-we.html" class="floating-who-btn">Who Are We</a>
+        <a href="index.html" class="floating-home-btn">Back to Home</a>
     </div>
 
     <div class="container">
