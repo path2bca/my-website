@@ -81,41 +81,7 @@
             pointer-events: none;
         }
 
-        /* Attention-grabbing state */
-        .floating-work-btn.attention {
-            animation: dramaticPulse 2s ease-in-out 4 forwards;
-            transform: scale(2) !important;
-        }
-
-        @keyframes dramaticPulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            }
-            25% {
-                transform: scale(2.2);
-                box-shadow: 0 0 50px rgba(59, 130, 246, 1),
-                           0 0 100px rgba(59, 130, 246, 0.8),
-                           0 0 150px rgba(59, 130, 246, 0.6);
-            }
-            50% {
-                transform: scale(1.8);
-                box-shadow: 0 0 40px rgba(59, 130, 246, 0.9),
-                           0 0 80px rgba(59, 130, 246, 0.7);
-            }
-            75% {
-                transform: scale(2.2);
-                box-shadow: 0 0 50px rgba(59, 130, 246, 1),
-                           0 0 100px rgba(59, 130, 246, 0.8),
-                           0 0 150px rgba(59, 130, 246, 0.6);
-            }
-            100% {
-                transform: scale(2);
-                box-shadow: 0 0 40px rgba(59, 130, 246, 0.9),
-                           0 0 80px rgba(59, 130, 246, 0.7),
-                           0 0 120px rgba(59, 130, 246, 0.5);
-            }
-        }
+        /* No attention animation - button stays normal size */
 
         /* Pointer arrow styles (not used anymore but kept for reference) */
         .pointer-arrow-right {
@@ -782,9 +748,6 @@
         </div>
     </div>
 
-    <!-- Freeze Overlay -->
-    <div class="freeze-overlay" id="freezeOverlay"></div>
-
     <!-- Top Logo -->
     <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
@@ -1128,52 +1091,10 @@
             cardObserver.observe(videoGrid);
         }
 
-        // Work With Us Button Animation Logic
+        // Work With Us Button - just keep it visible, no animations
         const floatingWorkBtn = document.getElementById('floatingWorkBtn');
-        const workWithUsCta = document.getElementById('workWithUsCta');
-        
-        let attentionTriggered = false;
-
-        // Initially show floating button
-        floatingWorkBtn.classList.add('before-animation');
-
-        // Observer for "Work With Us" CTA section
-        const ctaSectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                console.log('Work With Us CTA section:', {
-                    isIntersecting: entry.isIntersecting,
-                    ratio: entry.intersectionRatio,
-                    attentionTriggered: attentionTriggered
-                });
-                
-                // Trigger attention effect when section becomes 30% visible
-                if (entry.isIntersecting && !attentionTriggered && entry.intersectionRatio >= 0.3) {
-                    console.log('✓✓✓ TRIGGERING ATTENTION EFFECT! ✓✓✓');
-                    attentionTriggered = true;
-                    triggerAttentionEffect();
-                }
-            });
-        }, {
-            threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0],
-            rootMargin: '0px'
-        });
-
-        if (workWithUsCta) {
-            console.log('✓ Setting up observer for Work With Us CTA section');
-            ctaSectionObserver.observe(workWithUsCta);
-        }
-
-        function triggerAttentionEffect() {
-            console.log('Drawing attention to Work With Us button!');
-            
-            // Remove before-animation class
-            floatingWorkBtn.classList.remove('before-animation');
-            
-            // Make sure button is visible
-            floatingWorkBtn.classList.remove('hidden');
-            
-            // Add dramatic attention effect that scales to 200%
-            floatingWorkBtn.classList.add('attention');
+        if (floatingWorkBtn) {
+            floatingWorkBtn.classList.add('before-animation');
         }
     </script>
 </body>
