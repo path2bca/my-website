@@ -821,17 +821,27 @@
     </section>
 
     <script>
-        // Disclaimer Modal
+        // Disclaimer Modal - only show once per session
         const disclaimerModal = document.getElementById('disclaimerModal');
         const disclaimerButton = document.getElementById('disclaimerButton');
         
-        // Prevent scrolling while modal is open
-        document.body.classList.add('modal-open');
+        // Check if user has already seen the disclaimer this session
+        const hasSeenDisclaimer = sessionStorage.getItem('disclaimerSeen');
+        
+        if (!hasSeenDisclaimer) {
+            // First time this session - show modal and prevent scrolling
+            document.body.classList.add('modal-open');
+        } else {
+            // Already seen - hide modal immediately
+            disclaimerModal.classList.add('hidden');
+        }
         
         if (disclaimerButton) {
             disclaimerButton.addEventListener('click', () => {
                 disclaimerModal.classList.add('hidden');
                 document.body.classList.remove('modal-open');
+                // Mark as seen for this session
+                sessionStorage.setItem('disclaimerSeen', 'true');
             });
         }
 
