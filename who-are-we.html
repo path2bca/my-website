@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Are We - Path 2 BCA Consulting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 20%, #f5fbff 40%, #fafcfe 60%, #fdfdfe 80%, #ffffff 100%);
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        .top-logo {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            height: 120px;
+            z-index: 3000;
+            mix-blend-mode: multiply;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .top-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .floating-buttons {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 3000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .floating-work-btn, .floating-who-btn {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .floating-work-btn:hover, .floating-who-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .intro-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .intro-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 2rem;
+        }
+
+        .team-section {
+            margin-top: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .member-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            font-size: 1.3rem;
+            color: #3b82f6;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .values-section {
+            margin-top: 4rem;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-item {
+            margin-bottom: 2rem;
+        }
+
+        .value-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-description {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .intro-text {
+                font-size: 1.2rem;
+            }
+
+            .floating-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .floating-work-btn, .floating-who-btn {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Logo -->
+    <a href="index.html">
+        <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
+    </a>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="who-are-we.html" class="floating-who-btn">Who Are We</a>
+        <a href="worked-with-us.html" class="floating-work-btn">Work With Us</a>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Who Are We</h1>
+
+        <div class="intro-section">
+            <p class="intro-text">
+                We're current BCA students who understand the journey because we've lived it. We know what it takes to get in, and we're passionate about helping the next generation of students achieve their goals.
+            </p>
+            <p class="intro-text">
+                Unlike traditional test prep companies, we provide authentic insights from students who actually attend BCA. We've been through the application process, we know the challenges, and we're here to guide you every step of the way.
+            </p>
+        </div>
+
+        <div class="team-section">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3 class="member-name">Founder Name</h3>
+                    <p class="member-role">BCA Student, Class of 2026</p>
+                    <p class="member-bio">
+                        Passionate about making BCA admissions accessible and transparent. Started Path2BCA to help students navigate the application process with real insights from current students.
+                    </p>
+                </div>
+
+                <div class="team-member">
+                    <h3 class="member-name">Team Member</h3>
+                    <p class="member-role">BCA Student, Class of 2027</p>
+                    <p class="member-bio">
+                        Specializes in math and science preparation. Loves helping students discover their passion for problem-solving and critical thinking.
+                    </p>
+                </div>
+
+                <div class="team-member">
+                    <h3 class="member-name">Team Member</h3>
+                    <p class="member-role">BCA Student, Class of 2026</p>
+                    <p class="member-bio">
+                        Expert in essay writing and application strategy. Dedicated to helping students tell their unique stories and stand out in their applications.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="values-section">
+            <h2 class="section-title">Our Values</h2>
+            
+            <div class="value-item">
+                <h3 class="value-title">Authenticity</h3>
+                <p class="value-description">
+                    We share real experiences and honest advice from students who actually attend BCA. No corporate scripts, just genuine insights.
+                </p>
+            </div>
+
+            <div class="value-item">
+                <h3 class="value-title">Accessibility</h3>
+                <p class="value-description">
+                    Quality BCA prep shouldn't cost thousands of dollars. We believe every student deserves access to excellent guidance and support.
+                </p>
+            </div>
+
+            <div class="value-item">
+                <h3 class="value-title">Personalization</h3>
+                <p class="value-description">
+                    Every student is unique. We tailor our approach to your individual strengths, challenges, and goals.
+                </p>
+            </div>
+
+            <div class="value-item">
+                <h3 class="value-title">Results</h3>
+                <p class="value-description">
+                    We're committed to helping you succeed. Our strategies are proven because we've used them ourselves to get into BCA.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
