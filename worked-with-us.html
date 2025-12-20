@@ -19,18 +19,6 @@
             min-height: 100vh;
         }
 
-        /* Header Background Bar */
-        .header-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 160px;
-            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 100%);
-            z-index: 2999;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-        }
-
         .top-logo {
             position: fixed;
             top: 2rem;
@@ -183,24 +171,24 @@
             right: 2rem;
             z-index: 3001;
             flex-direction: column;
-            gap: 6px;
+            gap: 12px;
             cursor: pointer;
-            padding: 10px;
+            padding: 20px;
             background: linear-gradient(135deg, #3b82f6, #6366f1);
-            border-radius: 8px;
+            border-radius: 16px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
         .hamburger-menu span {
-            width: 25px;
-            height: 3px;
+            width: 50px;
+            height: 6px;
             background: #ffffff;
-            border-radius: 2px;
+            border-radius: 4px;
             transition: all 0.3s ease;
         }
 
         .hamburger-menu.open span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
+            transform: rotate(45deg) translate(16px, 16px);
         }
 
         .hamburger-menu.open span:nth-child(2) {
@@ -208,7 +196,7 @@
         }
 
         .hamburger-menu.open span:nth-child(3) {
-            transform: rotate(-45deg) translate(8px, -8px);
+            transform: rotate(-45deg) translate(16px, -16px);
         }
 
         .mobile-menu {
@@ -236,14 +224,14 @@
             background: linear-gradient(135deg, #3b82f6, #6366f1);
             color: #ffffff;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 3rem;
             font-weight: 700;
-            padding: 1.5rem 3rem;
-            border-radius: 12px;
+            padding: 3rem 6rem;
+            border-radius: 24px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: all 0.3s ease;
             width: 100%;
-            max-width: 300px;
+            max-width: 600px;
             text-align: center;
         }
 
@@ -290,9 +278,6 @@
     </style>
 </head>
 <body>
-    <!-- Header Background Bar -->
-    <div class="header-bar"></div>
-
     <!-- Hamburger Menu Button -->
     <div class="hamburger-menu" id="hamburgerMenu">
         <span></span>
@@ -387,6 +372,15 @@
                 hamburgerMenu.classList.toggle('open');
                 mobileMenu.classList.toggle('open');
                 document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+            });
+
+            // Close menu when clicking outside
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    hamburgerMenu.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
             });
 
             // Close menu when clicking a link
