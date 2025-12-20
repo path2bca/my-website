@@ -826,7 +826,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe id="ytplayer0" src="https://www.youtube.com/embed/-9lP95Qo-I0?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Math Problem Solving</div>
@@ -838,7 +838,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe id="ytplayer1" src="https://www.youtube.com/embed/-9lP95Qo-I0?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Essay Writing Strategies</div>
@@ -850,7 +850,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe id="ytplayer2" src="https://www.youtube.com/embed/-9lP95Qo-I0?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Test-Taking Tips</div>
@@ -1049,19 +1049,25 @@
 
         animateShapes();
 
-        // Video cards parallax and 3D effect - ensure only one plays at a time
+        // Video cards with play/pause control on hover
         const videoCards = document.querySelectorAll('.video-card');
         let currentlyHoveredCard = null;
         
         videoCards.forEach((card, index) => {
             let cardRotation = { x: 0, y: 0, targetX: 0, targetY: 0 };
+            const iframe = card.querySelector('iframe');
             
             card.addEventListener('mouseenter', () => {
-                // If another card is being hovered, trigger mouseleave on it
+                // Pause any currently playing video
                 if (currentlyHoveredCard && currentlyHoveredCard !== card) {
-                    currentlyHoveredCard.dispatchEvent(new Event('mouseleave'));
+                    const otherIframe = currentlyHoveredCard.querySelector('iframe');
+                    otherIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                 }
                 currentlyHoveredCard = card;
+                
+                // Play this video (muted)
+                iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             });
             
             card.addEventListener('mousemove', (e) => {
@@ -1079,6 +1085,9 @@
                 if (currentlyHoveredCard === card) {
                     currentlyHoveredCard = null;
                 }
+                // Pause video at current position (don't reset)
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                
                 cardRotation.targetX = 0;
                 cardRotation.targetY = 0;
             });
