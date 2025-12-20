@@ -1065,8 +1065,7 @@
                 }
                 currentlyHoveredCard = card;
                 
-                // Play this video (muted)
-                iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+                // Play this video (keeps its current mute state)
                 iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             });
             
