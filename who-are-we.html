@@ -19,6 +19,18 @@
             min-height: 100vh;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: #eef9ff;
+            z-index: 2999;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
         .top-logo {
             position: fixed;
             top: 2rem;
