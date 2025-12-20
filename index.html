@@ -48,11 +48,6 @@
             animation: attentionPulse 1.5s ease-in-out 3;
         }
 
-        body:has(.intro-video-container.visible) .top-logo {
-            opacity: 0;
-            pointer-events: none;
-        }
-
         /* Floating Work With Us Button */
         .floating-work-btn {
             position: fixed;
@@ -88,27 +83,41 @@
 
         /* Attention-grabbing state */
         .floating-work-btn.attention {
-            animation: attentionPulse 1.5s ease-in-out 3;
-            box-shadow: 0 0 0 0 rgba(59, 130, 246, 1);
+            animation: dramaticPulse 2s ease-in-out 4 forwards;
+            transform: scale(2) !important;
         }
 
-        @keyframes attentionPulse {
+        @keyframes dramaticPulse {
             0% {
                 transform: scale(1);
                 box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             }
+            25% {
+                transform: scale(2.2);
+                box-shadow: 0 0 50px rgba(59, 130, 246, 1),
+                           0 0 100px rgba(59, 130, 246, 0.8),
+                           0 0 150px rgba(59, 130, 246, 0.6);
+            }
             50% {
-                transform: scale(1.15);
-                box-shadow: 0 0 30px 15px rgba(59, 130, 246, 0.8),
-                            0 0 60px 30px rgba(59, 130, 246, 0.4);
+                transform: scale(1.8);
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.9),
+                           0 0 80px rgba(59, 130, 246, 0.7);
+            }
+            75% {
+                transform: scale(2.2);
+                box-shadow: 0 0 50px rgba(59, 130, 246, 1),
+                           0 0 100px rgba(59, 130, 246, 0.8),
+                           0 0 150px rgba(59, 130, 246, 0.6);
             }
             100% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+                transform: scale(2);
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.9),
+                           0 0 80px rgba(59, 130, 246, 0.7),
+                           0 0 120px rgba(59, 130, 246, 0.5);
             }
         }
 
-        /* Pointer arrow (right side only) */
+        /* Pointer arrow styles (not used anymore but kept for reference) */
         .pointer-arrow-right {
             position: fixed;
             top: 1rem;
@@ -159,11 +168,6 @@
                 opacity: 0;
                 transform: translateX(20px);
             }
-        }
-
-        body:has(.intro-video-container.visible) .floating-work-btn {
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* Disclaimer Modal */
@@ -456,374 +460,6 @@
             z-index: 2;
             width: 100%;
             text-align: center;
-        }
-
-        .intro-video-container {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            opacity: 0;
-            transform: scale(0.9) translateY(60px);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background: #232323;
-            display: none;
-        }
-
-        .intro-video-container.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            display: block;
-        }
-
-        /* Login Screen */
-        .zoom-join-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 25%, #f5fbff 60%, #ffffff 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 300;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-            padding: 0 2rem;
-        }
-
-        .zoom-join-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .zoom-meeting-title {
-            font-size: 4.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
-            white-space: nowrap;
-            max-width: 100%;
-            text-align: center;
-        }
-
-        .zoom-meeting-subtitle {
-            font-size: 1.5rem;
-            color: #475569;
-            margin-bottom: 3rem;
-        }
-
-        .access-message {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            height: 30px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .access-message.error {
-            color: #dc2626;
-            opacity: 1;
-        }
-
-        .access-message.success {
-            color: #16a34a;
-            opacity: 1;
-        }
-
-        .password-input-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        .password-label {
-            display: block;
-            color: #475569;
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 0.8rem;
-            text-align: left;
-        }
-
-        .password-input {
-            width: 550px;
-            padding: 1.5rem 2rem;
-            font-size: 2rem;
-            background: #ffffff;
-            border: 3px solid #cbd5e1;
-            border-radius: 12px;
-            color: #1e293b;
-            outline: none;
-            transition: all 0.3s ease;
-            font-family: monospace;
-            letter-spacing: 0.5em;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .password-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-        }
-
-        .zoom-join-button {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            border: none;
-            padding: 1.5rem 4.5rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .zoom-join-button.enabled {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .zoom-join-button.enabled:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.6);
-        }
-
-        .zoom-join-button.joining {
-            background: #64748b;
-            cursor: not-allowed;
-        }
-
-        .zoom-connecting {
-            display: none;
-            color: #475569;
-            font-size: 1.2rem;
-            margin-top: 1.5rem;
-        }
-
-        .zoom-connecting.active {
-            display: block;
-        }
-
-        /* Virtual Keyboard */
-        .virtual-keyboard {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 12px;
-            max-width: 900px;
-            opacity: 0.8;
-        }
-
-        .key {
-            background: #e2e8f0;
-            color: #1e293b;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 18px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.15s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .key.active {
-            background: #3b82f6;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
-        }
-
-        .key.delete {
-            grid-column: span 2;
-            background: #fecaca;
-            color: #dc2626;
-            border-color: #f87171;
-        }
-
-        .key.delete.active {
-            background: #dc2626;
-            color: white;
-        }
-
-        .intro-video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 60px;
-            background: #232323;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Zoom-style window chrome */
-        .video-chrome {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: #1c1c1c;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            z-index: 200;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: opacity 0.5s ease 0.5s;
-        }
-
-        .video-chrome.visible {
-            opacity: 1;
-        }
-
-        .window-controls {
-            display: flex;
-            gap: 8px;
-        }
-
-        .window-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .window-dot.close { background: #ff5f57; }
-        .window-dot.minimize { background: #febc2e; }
-        .window-dot.maximize { background: #28c840; }
-
-        .intro-video-container:hover .window-dot.close:hover { 
-            background: #ff4136;
-            box-shadow: 0 0 8px rgba(255, 95, 86, 0.6);
-        }
-        .intro-video-container:hover .window-dot.minimize:hover { 
-            background: #ffaa00;
-            box-shadow: 0 0 8px rgba(255, 189, 46, 0.6);
-        }
-        .intro-video-container:hover .window-dot.maximize:hover { 
-            background: #00d924;
-            box-shadow: 0 0 8px rgba(39, 201, 63, 0.6);
-        }
-
-        .video-title-bar {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.2px;
-        }
-
-        .intro-video {
-            width: 100%;
-            height: calc(100vh - 60px);
-            display: block;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .intro-video-container.playing .intro-video {
-            transform: scale(1.05);
-        }
-
-        .video-overlay {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 60px);
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .volume-reminder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        .volume-reminder.show {
-            opacity: 1;
-        }
-
-        .volume-reminder-text {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .volume-reminder-icon {
-            font-size: 4rem;
-            margin-bottom: 2rem;
-        }
-
-        .intro-video-container.playing .video-overlay {
-            opacity: 0;
-        }
-
-        /* legacy cursor styles removed in favor of auto-cursor */
-
-        /* Temporary "coming soon" overlay */
-        .coming-soon { position: absolute; top: 50px; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); color: #fff; font-size: 1.1rem; opacity: 0; transition: opacity 0.4s ease; }
-        .coming-soon.show { opacity: 1; }
-
-        .video-play-button {
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            pointer-events: auto;
-        }
-
-        .video-play-button:hover {
-            transform: scale(1.15);
-        }
-
-        .video-play-button::after {
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 30px solid #3b82f6;
-            border-top: 18px solid transparent;
-            border-bottom: 18px solid transparent;
-            margin-left: 8px;
         }
 
         /* CTA section after problem */
@@ -1171,7 +807,7 @@
     <section class="section hero">
         <div class="grid-overlay" id="heroGrid"></div>
         <div class="hero-content">
-            <h1 class="slogan">Why not learn from the people who actually got in?</h1>
+            <h1 class="slogan">Why not learn from the students who actually got in?</h1>
         </div>
     </section>
 
@@ -1182,87 +818,12 @@
         </div>
     </section>
 
-    <!-- Video Intro Section -->
-    <section class="section video-intro">
-        <div class="video-intro-content">
-            <div class="intro-video-container">
-                <!-- Login Screen -->
-                <div class="zoom-join-screen" id="zoomJoinScreen">
-                    <h2 class="zoom-meeting-title">Path to Greatness</h2>
-                    <p class="zoom-meeting-subtitle">Enter password to continue</p>
-                    <div class="access-message" id="accessMessage"></div>
-                    <div class="password-input-container">
-                        <label class="password-label">Password</label>
-                        <input type="text" class="password-input" id="passwordInput" maxlength="3" readonly>
-                    </div>
-                    <button class="zoom-join-button" id="zoomJoinBtn">Enter</button>
-                    <div class="zoom-connecting" id="zoomConnecting">Loading experience...</div>
-                    
-                    <!-- Virtual Keyboard -->
-                    <div class="virtual-keyboard" id="virtualKeyboard">
-                        <div class="key" data-key="Q">Q</div>
-                        <div class="key" data-key="W">W</div>
-                        <div class="key" data-key="E">E</div>
-                        <div class="key" data-key="R">R</div>
-                        <div class="key" data-key="T">T</div>
-                        <div class="key" data-key="Y">Y</div>
-                        <div class="key" data-key="U">U</div>
-                        <div class="key" data-key="I">I</div>
-                        <div class="key" data-key="O">O</div>
-                        <div class="key" data-key="P">P</div>
-                        <div class="key" data-key="A">A</div>
-                        <div class="key" data-key="S">S</div>
-                        <div class="key" data-key="D">D</div>
-                        <div class="key" data-key="F">F</div>
-                        <div class="key" data-key="G">G</div>
-                        <div class="key" data-key="H">H</div>
-                        <div class="key" data-key="J">J</div>
-                        <div class="key" data-key="K">K</div>
-                        <div class="key" data-key="L">L</div>
-                        <div class="key delete" data-key="DELETE">DELETE</div>
-                        <div class="key" data-key="Z">Z</div>
-                        <div class="key" data-key="X">X</div>
-                        <div class="key" data-key="C">C</div>
-                        <div class="key" data-key="V">V</div>
-                        <div class="key" data-key="B">B</div>
-                        <div class="key" data-key="N">N</div>
-                        <div class="key" data-key="M">M</div>
-                    </div>
-                </div>
 
-                <div class="intro-video-wrapper">
-                    <div class="video-chrome" id="videoChrome">
-                        <div class="window-controls">
-                            <svg class="zoom-icon" viewBox="0 0 24 24">
-                                <path d="M2 8.5C2 7.67 2.67 7 3.5 7h9c.83 0 1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5h-9c-.83 0-1.5-.67-1.5-1.5v-7zm16.5-2L22 4v16l-3.5-2.5V6.5z"/>
-                            </svg>
-                        </div>
-                        <div class="video-title-bar">
-                            <span>IntroPath2BCA.mp4</span>
-                        </div>
-                    </div>
-                    <div class="volume-reminder" id="volumeReminder">
-                        <div class="volume-reminder-icon">🔊</div>
-                        <div class="volume-reminder-text">Please turn on your volume</div>
-                    </div>
-                    <video class="intro-video" muted loop playsinline>
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-together-in-a-modern-office-4607-large.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <div class="video-play-button"></div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </section>
 
     <!-- Work With Us CTA -->
     <section class="work-with-us-cta" id="workWithUsCta">
         <div class="cta-container">
             <h2 class="cta-title" id="ctaTitle">Ready to Get Into BCA?</h2>
-            <p class="cta-subtitle" id="ctaSubtitle">See what our students have achieved</p>
             <a href="worked-with-us.html" class="cta-button-large" id="ctaButton">Work With Us</a>
         </div>
     </section>
@@ -1477,268 +1038,6 @@
             checkCentered();
         }
 
-        // Login password auto-type functionality
-        const zoomJoinBtn = document.getElementById('zoomJoinBtn');
-        const zoomJoinScreen = document.getElementById('zoomJoinScreen');
-        const zoomConnecting = document.getElementById('zoomConnecting');
-        const videoChrome = document.getElementById('videoChrome');
-        const passwordInput = document.getElementById('passwordInput');
-        const accessMessage = document.getElementById('accessMessage');
-        
-        if (zoomJoinBtn && zoomJoinScreen && passwordInput) {
-            // Reuse existing cursor from CTA button
-            let typingCursor = null;
-            
-            // Helper function to get or wait for cursor
-            const getCursor = () => {
-                return new Promise((resolve) => {
-                    const checkCursor = () => {
-                        typingCursor = document.querySelector('.auto-cursor');
-                        if (typingCursor) {
-                            resolve(typingCursor);
-                        } else {
-                            setTimeout(checkCursor, 100);
-                        }
-                    };
-                    checkCursor();
-                });
-            };
-            
-            // Helper function to move cursor to key
-            const moveCursorToKey = (key) => {
-                if (!typingCursor) return;
-                const keyElement = document.querySelector(`.key[data-key="${key}"]`);
-                if (keyElement) {
-                    const keyRect = keyElement.getBoundingClientRect();
-                    const keyX = keyRect.left + keyRect.width / 2;
-                    const keyY = window.scrollY + keyRect.top + keyRect.height / 2;
-                    typingCursor.style.transform = `translate(${keyX}px, ${keyY}px)`;
-                    typingCursor.style.opacity = '1';
-                }
-            };
-            
-            // Helper function to highlight keyboard key
-            const highlightKey = (key) => {
-                const keyElement = document.querySelector(`.key[data-key="${key}"]`);
-                if (keyElement) {
-                    keyElement.classList.add('active');
-                    setTimeout(() => keyElement.classList.remove('active'), 200);
-                }
-            };
-            
-            // Auto-type password sequence
-            const autoTypePassword = async () => {
-                // Wait for cursor to be available
-                await getCursor();
-                
-                // Immediately position cursor at first key to avoid shooting up/down
-                const firstKey = document.querySelector(`.key[data-key="B"]`);
-                if (firstKey && typingCursor) {
-                    const keyRect = firstKey.getBoundingClientRect();
-                    const keyX = keyRect.left + keyRect.width / 2;
-                    const keyY = window.scrollY + keyRect.top + keyRect.height / 2;
-                    typingCursor.style.transform = `translate(${keyX}px, ${keyY}px)`;
-                    typingCursor.style.transition = 'transform 0.6s cubic-bezier(.22,1,.36,1)';
-                }
-                
-                // Only try BCA
-                const typeSequence = [
-                    { text: 'BCA', delay: 500, success: true }
-                ];
-                
-                let attemptIndex = 0;
-                
-                const tryPassword = () => {
-                    if (attemptIndex >= typeSequence.length) return;
-                    
-                    const attempt = typeSequence[attemptIndex];
-                    passwordInput.value = '';
-                    accessMessage.className = 'access-message';
-                    accessMessage.textContent = '';
-                    
-                    // Type each character
-                    let charIndex = 0;
-                    const typeChar = () => {
-                        if (charIndex < attempt.text.length) {
-                            const char = attempt.text[charIndex];
-                            // Move cursor to key first
-                            moveCursorToKey(char);
-                            setTimeout(() => {
-                                passwordInput.value += char;
-                                highlightKey(char);
-                                charIndex++;
-                                setTimeout(typeChar, attempt.delay);
-                            }, 300);
-                        } else {
-                            // Finished typing, show result
-                            setTimeout(() => {
-                                if (attempt.success) {
-                                    accessMessage.textContent = 'ACCESS GRANTED';
-                                    accessMessage.className = 'access-message success';
-                                    zoomJoinBtn.classList.add('enabled');
-                                    
-                                    // Auto-click Enter button after success with existing cursor
-                                    setTimeout(() => {
-                                        if (!typingCursor) return;
-                                        
-                                        // Position cursor on button
-                                        const btnRect = zoomJoinBtn.getBoundingClientRect();
-                                        const btnX = btnRect.left + btnRect.width / 2;
-                                        const btnY = window.scrollY + btnRect.top + btnRect.height / 2;
-                                        typingCursor.style.transform = `translate(${btnX}px, ${btnY}px)`;
-                                        
-                                        // Click after short delay
-                                        setTimeout(() => {
-                                            zoomJoinBtn.click();
-                                        }, 600);
-                                    }, 800);
-                                } else {
-                                    accessMessage.textContent = 'ACCESS DENIED. Please try again.';
-                                    accessMessage.className = 'access-message error';
-                                    
-                                    // Delete the failed password character by character
-                                    setTimeout(() => {
-                                        let deleteIndex = passwordInput.value.length;
-                                        const deleteChar = () => {
-                                            if (deleteIndex > 0) {
-                                                moveCursorToKey('DELETE');
-                                                setTimeout(() => {
-                                                    highlightKey('DELETE');
-                                                    passwordInput.value = passwordInput.value.slice(0, -1);
-                                                    deleteIndex--;
-                                                    setTimeout(deleteChar, 200);
-                                                }, 300);
-                                            } else {
-                                                // After deleting, try next password
-                                                setTimeout(() => {
-                                                    attemptIndex++;
-                                                    tryPassword();
-                                                }, 800);
-                                            }
-                                        };
-                                        deleteChar();
-                                    }, 1000);
-                                }
-                            }, 500);
-                        }
-                    };
-                    
-                    // Start typing immediately without initial delay
-                    setTimeout(typeChar, 100);
-                };
-                
-                tryPassword();
-            };
-            
-            zoomJoinBtn.addEventListener('click', () => {
-                if (!zoomJoinBtn.classList.contains('enabled')) return;
-                
-                // Show connecting message
-                zoomJoinBtn.classList.add('joining');
-                zoomJoinBtn.textContent = 'Entering...';
-                zoomConnecting.classList.add('active');
-                
-                // After 1.5s, fade out join screen
-                setTimeout(() => {
-                    zoomJoinScreen.classList.add('hidden');
-                    
-                    // Move cursor to center of screen and click
-                    setTimeout(() => {
-                        if (typingCursor) {
-                            // Get center of viewport
-                            const centerX = window.innerWidth / 2;
-                            const centerY = window.scrollY + window.innerHeight / 2;
-                            typingCursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
-                            
-                            // Click and remove cursor, then show video
-                            setTimeout(() => {
-                                // Remove cursor
-                                if (typingCursor) {
-                                    typingCursor.remove();
-                                    typingCursor = null;
-                                }
-                                
-                                // Show video chrome
-                                if (videoChrome) {
-                                    videoChrome.classList.add('visible');
-                                }
-                                
-                                // Show volume reminder for 3 seconds
-                                const volumeReminder = document.getElementById('volumeReminder');
-                                if (volumeReminder) {
-                                    // Hide the play button immediately
-                                    const playBtn = document.querySelector('.video-play-button');
-                                    if (playBtn) {
-                                        playBtn.style.display = 'none';
-                                    }
-                                    
-                                    // Show reminder
-                                    setTimeout(() => {
-                                        volumeReminder.classList.add('show');
-                                    }, 100);
-                                    
-                                    // Hide reminder and play video after 3 seconds
-                                    setTimeout(() => {
-                                        volumeReminder.classList.remove('show');
-                                        
-                                        // Play video after fade out
-                                        setTimeout(() => {
-                                            const playBtn = document.querySelector('.video-play-button');
-                                            const video = document.querySelector('.intro-video');
-                                            
-                                            if (playBtn) {
-                                                playBtn.click();
-                                                
-                                                // Prevent skipping for first 5 seconds
-                                                if (video) {
-                                                    let canSkip = false;
-                                                    const preventSkip = (e) => {
-                                                        if (!canSkip && video.currentTime > 0.1) {
-                                                            e.preventDefault();
-                                                            video.currentTime = 0;
-                                                        }
-                                                    };
-                                                    video.addEventListener('seeking', preventSkip);
-                                                    video.addEventListener('timeupdate', () => {
-                                                        if (video.currentTime >= 5) {
-                                                            canSkip = true;
-                                                            video.removeEventListener('seeking', preventSkip);
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            
-                                            // Unlock scrolling 3 seconds after volume reminder finishes
-                                            setTimeout(() => {
-                                                document.body.classList.remove('locked');
-                                                const lock = document.querySelector('.page-lock');
-                                                if (lock) lock.remove();
-                                            }, 3000);
-                                        }, 500);
-                                    }, 3000);
-                                }
-                            }, 600);
-                        }
-                    }, 500);
-                }, 1500);
-            });
-            
-            // Start auto-typing when video container becomes visible
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.target.classList.contains('visible')) {
-                        setTimeout(autoTypePassword, 1000);
-                        observer.disconnect();
-                    }
-                });
-            });
-            
-            const videoContainer = document.querySelector('.intro-video-container');
-            if (videoContainer) {
-                observer.observe(videoContainer, { attributes: true, attributeFilter: ['class'] });
-            }
-        }
-
         // Dynamic founder cards pop-in animation
         const observerOptions = {
             threshold: 0.3,
@@ -1922,41 +1221,12 @@
 
         // Work With Us Button Animation Logic
         const floatingWorkBtn = document.getElementById('floatingWorkBtn');
-        const ctaButton = document.getElementById('ctaButton');
-        const ctaTitle = document.getElementById('ctaTitle');
-        const ctaSubtitle = document.getElementById('ctaSubtitle');
-        const videoIntroContainer = document.querySelector('.intro-video-container');
-        const videoSection = document.querySelector('.video-intro');
         const workWithUsCta = document.getElementById('workWithUsCta');
         
         let attentionTriggered = false;
 
         // Initially show floating button
         floatingWorkBtn.classList.add('before-animation');
-
-        // Continuously monitor video section visibility to hide/show button
-        const videoSectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // User is in video section - hide button
-                    floatingWorkBtn.classList.add('hidden');
-                    floatingWorkBtn.classList.remove('before-animation');
-                } else {
-                    // User is NOT in video section
-                    if (attentionTriggered) {
-                        // Attention already happened - show button
-                        floatingWorkBtn.classList.remove('hidden');
-                    } else if (floatingWorkBtn.classList.contains('before-animation')) {
-                        // Before attention - show button
-                        floatingWorkBtn.classList.remove('hidden');
-                    }
-                }
-            });
-        }, { threshold: [0, 0.1] });
-
-        if (videoSection) {
-            videoSectionObserver.observe(videoSection);
-        }
 
         // Observer for "Work With Us" CTA section
         const ctaSectionObserver = new IntersectionObserver((entries) => {
