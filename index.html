@@ -71,22 +71,12 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: all 0.3s ease;
-            opacity: 1;
-        }
-
-        .floating-work-btn.before-animation, .floating-who-btn.before-animation {
-            opacity: 1;
         }
 
         .floating-work-btn:hover, .floating-who-btn:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
-        }
-
-        .floating-work-btn.hidden, .floating-who-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* No attention animation - button stays normal size */
@@ -795,8 +785,8 @@
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <a href="who-are-we.html" class="floating-who-btn" id="floatingWhoBtn">Who Are We</a>
-        <a href="worked-with-us.html" class="floating-work-btn" id="floatingWorkBtn">Work With Us</a>
+        <a href="who-are-we.html" class="floating-who-btn">Who Are We</a>
+        <a href="worked-with-us.html" class="floating-work-btn">Work With Us</a>
     </div>
 
     <!-- Hero Section -->
@@ -1163,12 +1153,6 @@
         const videoGrid = document.querySelector('.video-grid');
         if (videoGrid) {
             cardObserver.observe(videoGrid);
-        }
-
-        // Work With Us Button - just keep it visible, no animations
-        const floatingWorkBtn = document.getElementById('floatingWorkBtn');
-        if (floatingWorkBtn) {
-            floatingWorkBtn.classList.add('before-animation');
         }
     </script>
 </body>
