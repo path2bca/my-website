@@ -225,10 +225,21 @@
             text-align: center;
         }
 
+        .mobile-menu a.current {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            box-shadow: 0 4px 15px rgba(30, 41, 59, 0.6);
+        }
+
         .mobile-menu a:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .mobile-menu a.current:hover {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(30, 41, 59, 0.7);
         }
 
         .disclaimer-content {
@@ -948,8 +959,9 @@
 
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="who-are-we.html">Who Are We</a>
+        <a href="index.html" class="current">Home</a>
         <a href="worked-with-us.html">Work With Us</a>
+        <a href="who-are-we.html">Who Are We</a>
     </div>
 
     <!-- Disclaimer Modal -->
