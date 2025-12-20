@@ -19,6 +19,18 @@
             min-height: 100vh;
         }
 
+        /* Header Background Bar */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 160px;
+            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 100%);
+            z-index: 2999;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
         .top-logo {
             position: fixed;
             top: 2rem;
@@ -199,6 +211,9 @@
     </style>
 </head>
 <body>
+    <!-- Header Background Bar -->
+    <div class="header-bar"></div>
+
     <!-- Top Logo -->
     <a href="index.html">
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">

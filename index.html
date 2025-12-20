@@ -19,6 +19,18 @@
             cursor: default;
         }
 
+        /* Header Background Bar */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 160px;
+            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 100%);
+            z-index: 2999;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
         .section {
             min-height: 100vh;
             display: flex;
@@ -769,6 +781,9 @@
     </style>
 </head>
 <body>
+    <!-- Header Background Bar -->
+    <div class="header-bar"></div>
+
     <!-- Disclaimer Modal -->
     <div class="disclaimer-modal" id="disclaimerModal">
         <div class="disclaimer-content">
