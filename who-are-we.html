@@ -302,6 +302,18 @@
         }
 
         @media (max-width: 480px) {
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 85px;
+                background: #eef9ff;
+                z-index: 2999;
+                border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            }
+
             body {
                 padding-top: 90px;
             }
@@ -311,6 +323,7 @@
                 top: 1rem;
                 right: 1rem;
                 padding: 22px;
+                z-index: 3001;
             }
 
             .hamburger-menu span {
@@ -336,6 +349,7 @@
                 position: fixed;
                 top: 1rem;
                 left: 1rem;
+                z-index: 3000;
             }
         }
     </style>
