@@ -146,13 +146,32 @@
         }
 
         .value-item {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .value-letter {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 60px;
+            flex-shrink: 0;
+        }
+
+        .value-content {
+            flex: 1;
         }
 
         .value-title {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #3b82f6;
+            color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
@@ -424,23 +443,35 @@
             <h2 class="section-title">PATH: Our Values</h2>
             
             <div class="value-item">
-                <h3 class="value-title">Personalization</h3>
-                <p class="value-description">Every student is unique. We tailor our approach to your individual strengths, challenges, and goals.</p>
+                <div class="value-letter">P</div>
+                <div class="value-content">
+                    <h3 class="value-title">Personalization</h3>
+                    <p class="value-description">Every student is unique. We tailor our approach to your individual strengths, challenges, and goals.</p>
+                </div>
             </div>
 
             <div class="value-item">
-                <h3 class="value-title">Authenticity</h3>
-                <p class="value-description">We share real experiences and honest advice from students who actually attend BCA. No corporate scripts, just genuine insights.</p>
+                <div class="value-letter">A</div>
+                <div class="value-content">
+                    <h3 class="value-title">Authenticity</h3>
+                    <p class="value-description">We share real experiences and honest advice from students who actually attend BCA. No corporate scripts, just genuine insights.</p>
+                </div>
             </div>
 
             <div class="value-item">
-                <h3 class="value-title">Transparency</h3>
-                <p class="value-description">We're committed to helping you succeed. Our strategies are proven because we've used them ourselves to get into BCA.</p>
+                <div class="value-letter">T</div>
+                <div class="value-content">
+                    <h3 class="value-title">Transparency</h3>
+                    <p class="value-description">We're committed to helping you succeed. Our strategies are proven because we've used them ourselves to get into BCA.</p>
+                </div>
             </div>
 
             <div class="value-item">
-                <h3 class="value-title">Help</h3>
-                <p class="value-description">Quality BCA prep shouldn't cost thousands of dollars. We believe every student deserves access to excellent guidance and support.</p>
+                <div class="value-letter">H</div>
+                <div class="value-content">
+                    <h3 class="value-title">Help</h3>
+                    <p class="value-description">Quality BCA prep shouldn't cost thousands of dollars. We believe every student deserves access to excellent guidance and support.</p>
+                </div>
             </div>
         </div>
     </div>
