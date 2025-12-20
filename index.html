@@ -826,7 +826,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Math Problem Solving</div>
@@ -838,7 +838,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Essay Writing Strategies</div>
@@ -850,7 +850,7 @@
                     <div class="play-icon"></div>
                 </div>
                 <div class="video-iframe">
-                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Test-Taking Tips</div>
@@ -1049,11 +1049,20 @@
 
         animateShapes();
 
-        // Video cards parallax and 3D effect
+        // Video cards parallax and 3D effect - ensure only one plays at a time
         const videoCards = document.querySelectorAll('.video-card');
+        let currentlyHoveredCard = null;
         
         videoCards.forEach((card, index) => {
             let cardRotation = { x: 0, y: 0, targetX: 0, targetY: 0 };
+            
+            card.addEventListener('mouseenter', () => {
+                // If another card is being hovered, trigger mouseleave on it
+                if (currentlyHoveredCard && currentlyHoveredCard !== card) {
+                    currentlyHoveredCard.dispatchEvent(new Event('mouseleave'));
+                }
+                currentlyHoveredCard = card;
+            });
             
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -1067,6 +1076,9 @@
             });
 
             card.addEventListener('mouseleave', () => {
+                if (currentlyHoveredCard === card) {
+                    currentlyHoveredCard = null;
+                }
                 cardRotation.targetX = 0;
                 cardRotation.targetY = 0;
             });
