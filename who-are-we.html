@@ -303,26 +303,35 @@
 
         @media (max-width: 480px) {
             .hamburger-menu {
-                padding: 12px;
+                padding: 15px;
                 border-top: 2px solid rgba(255, 255, 255, 0.2);
+                position: fixed;
+                background: rgba(15, 23, 42, 0.9);
+                width: 100%;
+                left: 0;
+                right: 0;
+                top: 0;
+                display: flex;
+                justify-content: flex-end;
+                padding-right: 1.5rem;
             }
 
             .hamburger-menu span {
-                width: 30px;
-                height: 3px;
+                width: 35px;
+                height: 4px;
             }
 
             .hamburger-menu.open span:nth-child(1) {
-                transform: rotate(45deg) translate(9px, 9px);
+                transform: rotate(45deg) translate(11px, 11px);
             }
 
             .hamburger-menu.open span:nth-child(3) {
-                transform: rotate(-45deg) translate(9px, -9px);
+                transform: rotate(-45deg) translate(11px, -11px);
             }
 
             .mobile-menu a {
-                font-size: 1.3rem;
-                padding: 1.3rem 1.8rem;
+                font-size: 1.6rem;
+                padding: 1.6rem 2.2rem;
             }
 
             .top-logo {
