@@ -555,17 +555,46 @@
             background: #ffffff;
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 1px solid rgba(59, 130, 246, 0.1);
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             opacity: 0;
             transform: translateX(-60px) translateZ(0);
+            position: relative;
         }
 
         .video-card:hover {
             box-shadow: 0 28px 60px rgba(59, 130, 246, 0.28);
             border-color: rgba(59, 130, 246, 0.3);
+            transform: scale(1.05) translateZ(0);
+            z-index: 10;
+        }
+
+        .video-card:hover .video-placeholder {
+            opacity: 0;
+        }
+
+        .video-card:hover .video-iframe {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .video-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .video-card.reveal {
@@ -792,33 +821,42 @@
         <div class="grid-overlay" id="demoGrid"></div>
         <h2 class="demo-header">See How We Teach</h2>
         <div class="video-grid">
-            <a href="https://www.youtube.com/channel/UCXcPTm6krMArG7ZMe6Zpwrg" target="_blank" class="video-card" data-index="0">
+            <div class="video-card" data-index="0">
                 <div class="video-placeholder">
                     <div class="play-icon"></div>
+                </div>
+                <div class="video-iframe">
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Math Problem Solving</div>
                     <div class="video-description">Quick tips on tackling complex equations</div>
                 </div>
-            </a>
-            <a href="https://www.youtube.com/channel/UCXcPTm6krMArG7ZMe6Zpwrg" target="_blank" class="video-card" data-index="1">
+            </div>
+            <div class="video-card" data-index="1">
                 <div class="video-placeholder">
                     <div class="play-icon"></div>
+                </div>
+                <div class="video-iframe">
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Essay Writing Strategies</div>
                     <div class="video-description">How to craft compelling essays that stand out</div>
                 </div>
-            </a>
-            <a href="https://www.youtube.com/channel/UCXcPTm6krMArG7ZMe6Zpwrg" target="_blank" class="video-card" data-index="2">
+            </div>
+            <div class="video-card" data-index="2">
                 <div class="video-placeholder">
                     <div class="play-icon"></div>
+                </div>
+                <div class="video-iframe">
+                    <iframe src="https://www.youtube.com/embed/-9lP95Qo-I0?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
                     <div class="video-title">Test-Taking Tips</div>
                     <div class="video-description">Time management and strategy from students who aced it</div>
                 </div>
-            </a>
+            </div>
         </div>
         
     </section>
