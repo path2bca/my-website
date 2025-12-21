@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Path 2 BCA Consulting - Learn From Those Who Got In</title>
+    <title>Who Are We - Path 2 BCA Consulting</title>
     <style>
         * {
             margin: 0;
@@ -11,21 +11,16 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             overflow-x: hidden;
-            background: #eef9ff;
+            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 20%, #f5fbff 40%, #fafcfe 60%, #fdfdfe 80%, #ffffff 100%);
             color: #0f172a;
-            cursor: default;
-        }
-
-        .section {
-            min-height: 95vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 2rem;
+            min-height: 100vh;
         }
 
         .top-logo {
@@ -35,126 +30,180 @@
             height: 120px;
             z-index: 3000;
             mix-blend-mode: multiply;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease;
             cursor: pointer;
-            opacity: 1;
         }
 
         .top-logo:hover {
             transform: scale(1.05);
         }
 
-        .top-logo.attention {
-            animation: attentionPulse 1.5s ease-in-out 3;
-        }
-
-        /* Floating Buttons Container */
         .floating-buttons {
             display: none;
         }
 
-        /* Floating Work With Us Button */
-        .floating-work-btn, .floating-who-btn {
+        .floating-work-btn, .floating-who-btn, .floating-home-btn {
             background: linear-gradient(135deg, #3b82f6, #6366f1);
             color: #ffffff;
             text-decoration: none;
-            font-size: 1.8rem;
-            font-weight: 800;
-            padding: 1.75rem 3.5rem;
-            border-radius: 16px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: all 0.3s ease;
-            animation: shake 1.5s ease-in-out infinite, pulseGlow 1.2s ease-in-out infinite;
-            position: relative;
-            z-index: 1000;
         }
 
         .floating-work-btn:hover, .floating-who-btn:hover {
             background: linear-gradient(135deg, #2563eb, #4f46e5);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7), 0 0 50px rgba(59, 130, 246, 0.4);
-            animation: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
         }
 
-        /* No attention animation - button stays normal size */
-
-        /* Pointer arrow styles (not used anymore but kept for reference) */
-        .pointer-arrow-right {
-            position: fixed;
-            top: 1rem;
-            right: 14rem;
-            z-index: 2999;
-            font-size: 4rem;
-            opacity: 0;
-            pointer-events: none;
-            animation: pointAndFade 4s ease-in-out forwards;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10rem 2rem 4rem;
         }
 
-        .pointer-arrow-left {
-            position: fixed;
-            top: 1rem;
-            left: 14rem;
-            z-index: 2999;
-            font-size: 4rem;
-            opacity: 0;
-            pointer-events: none;
-            animation: pointAndFadeLeft 4s ease-in-out forwards;
+        .page-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
-        @keyframes pointAndFade {
-            0%, 10% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            20%, 80% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            90%, 100% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
+        .intro-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        @keyframes pointAndFadeLeft {
-            0%, 10% {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            20%, 80% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            90%, 100% {
-                opacity: 0;
-                transform: translateX(20px);
-            }
+        .intro-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 2rem;
         }
 
-        /* Disclaimer Modal */
-        .disclaimer-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
+        .team-section {
+            margin-top: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-            overflow-y: auto;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .disclaimer-modal.hidden {
-            opacity: 0;
-            pointer-events: none;
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            padding: 4rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
-        body.modal-open {
-            overflow: hidden;
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .member-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            margin: 0 auto 2rem;
+            border: 6px solid #3b82f6;
+        }
+
+        .member-name {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .member-role {
+            font-size: 1.8rem;
+            color: #3b82f6;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-specialty {
+            font-size: 1.3rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .member-bio {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .values-section {
+            margin-top: 4rem;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-item {
+            margin-bottom: 2.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .value-letter {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 60px;
+            flex-shrink: 0;
+        }
+
+        .value-content {
+            flex: 1;
+        }
+
+        .value-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-description {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            color: #475569;
         }
 
         /* Hamburger Menu */
@@ -220,7 +269,7 @@
             text-decoration: none;
             font-size: 3rem;
             font-weight: 700;
-            padding: 3rem 6rem;
+            padding: 3rem 2rem;
             border-radius: 24px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             transition: all 0.3s ease;
@@ -246,521 +295,69 @@
             box-shadow: 0 6px 25px rgba(30, 41, 59, 0.7);
         }
 
-        .disclaimer-content {
-            background: white;
-            padding: 4rem;
-            border-radius: 20px;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .disclaimer-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-        }
-
-        .disclaimer-text {
-            font-size: 1.6rem;
-            color: #64748b;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .disclaimer-button {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            border: none;
-            padding: 1.2rem 3.5rem;
-            font-size: 1.4rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .disclaimer-button:hover {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
-        }
-
-        .top-nav {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 3000;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .top-nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding: 1.25rem 2.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .top-nav a:hover {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
-        }
-
-        /* Work With Us CTA */
-        .work-with-us-cta {
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            padding: 6rem 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .cta-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .cta-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 0.8s ease forwards;
-            transition: opacity 0.3s ease;
-        }
-
-        .cta-title.hidden {
-            opacity: 0;
-        }
-
-        .cta-subtitle {
-            font-size: 1.5rem;
-            color: #64748b;
-            margin-bottom: 3rem;
-            animation: fadeInUp 0.8s 0.2s ease forwards;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .cta-subtitle.hidden {
-            opacity: 0;
-        }
-
-        .cta-button-large {
-            display: none !important;
-        }
-
-        .cta-button-large::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .cta-button-large:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .cta-button-large:hover {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.6);
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(180deg, #cfefff 0%, #e8f7ff 20%, #f5fbff 40%, #fafcfe 60%, #fdfdfe 80%, #ffffff 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(147, 197, 253, 0.05) 0%, transparent 50%);
-        }
-
-        .grid-overlay {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: 
-                linear-gradient(90deg, rgba(96, 165, 250, 0.03) 1px, transparent 1px),
-                linear-gradient(0deg, rgba(147, 197, 253, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform-origin: center;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 900px;
-        }
-
-        .slogan {
-            font-size: 5.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s 0.3s forwards;
-            color: #1e293b;
-            text-wrap: balance;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .subtext {
-            font-size: 2.2rem;
-            opacity: 0;
-            animation: fadeInUp 1s 0.6s forwards;
-            color: #475569;
-            margin-bottom: 1rem;
-        }
-
-        .disclaimer {
-            font-size: 1.8rem;
-            opacity: 0;
-            animation: fadeInUp 1s 0.9s forwards;
-            color: #94a3b8;
-            font-style: italic;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .disclaimer.sticky {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: transparent;
-            backdrop-filter: none;
-            padding: 1rem 0;
-            margin: 0;
-            z-index: 9999;
-            text-align: center;
-            box-shadow: none;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            z-index: 10;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-20px); }
-            60% { transform: translateX(-50%) translateY(-10px); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg) scale(1); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-3deg) scale(1.05); }
-            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(3deg) scale(1.05); }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { 
-                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.3);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 10px 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.7), 0 0 80px rgba(59, 130, 246, 0.4);
-                transform: scale(1.08);
-            }
-        }
-
-        /* Problem Section */
-        .problem {
-            background: #ffffff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .problem::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at center, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 1;
-        }
-
-        .floating-shapes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .shape {
-            position: absolute;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
-            border-radius: 50%;
-            filter: blur(40px);
-        }
-
-        .shape1 { width: 400px; height: 400px; top: 10%; left: -10%; }
-        .shape2 { width: 300px; height: 300px; bottom: 20%; right: -5%; }
-        .shape3 { width: 250px; height: 250px; top: 50%; right: 20%; }
-        .shape4 { width: 350px; height: 350px; bottom: 10%; left: 15%; }
-        .shape5 { width: 280px; height: 280px; top: 30%; left: 25%; }
-
-        .problem-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            text-align: center;
-        }
-
-        .problem-text {
-            font-size: 3rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 2rem;
-            color: #1e293b;
-        }
-
-        .highlight {
-            color: #3b82f6;
-            font-weight: 700;
-        }
-
-        .cost-callout {
-            font-size: 2rem;
-            color: #64748b;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        .big-question {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 2rem;
-        }
-
-        /* Webinar Section */
-        .webinar-section {
-            background: #ffffff;
-            padding: 4rem 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .webinar-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 40px rgba(59, 130, 246, 0.5);
-            padding: 3rem;
-            text-align: center;
-            animation: webinarPulse 2s ease-in-out infinite;
-        }
-
-        .webinar-title {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            font-weight: 700;
-        }
-
-        .webinar-description {
-            font-size: 1.5rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 2rem;
-        }
-
-        .webinar-button {
-            display: inline-block;
-            background: white;
-            color: #3b82f6;
-            padding: 1.5rem 3.5rem;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 1.6rem;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: buttonShake 2s ease-in-out infinite;
-        }
-
-        .webinar-button:hover {
-            transform: scale(1.08);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            animation: none;
-        }
-
-        @keyframes webinarPulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 8px 40px rgba(59, 130, 246, 0.5);
-            }
-            50% {
-                transform: scale(1.03);
-                box-shadow: 0 15px 60px rgba(59, 130, 246, 0.8), 0 0 80px rgba(59, 130, 246, 0.4);
-            }
-        }
-
-        @keyframes buttonShake {
-            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-            10%, 30%, 50%, 70%, 90% { transform: translateY(-3px) scale(1.03) rotate(-1deg); }
-            20%, 40%, 60%, 80% { transform: translateY(-3px) scale(1.03) rotate(1deg); }
-        }
-
-        /* Mobile Responsive Styles */
         @media (max-width: 768px) {
-            .section {
-                padding: 1rem;
+            .page-title {
+                font-size: 2.5rem;
+                padding: 0 1rem;
             }
 
-            .top-logo {
-                height: 70px;
-                top: 1rem;
-                left: 1rem;
+            .section-title {
+                font-size: 2rem;
+                padding: 0 1rem;
             }
 
-            .slogan {
-                font-size: 2.5rem !important;
+            .intro-text {
+                font-size: 1.2rem;
             }
 
-            .subtext {
-                font-size: 1.3rem !important;
+            .intro-section {
+                padding: 2rem 1.5rem;
             }
 
-            .disclaimer {
-                font-size: 1.1rem !important;
+            .container {
+                padding: 8rem 1rem 3rem;
             }
 
-            .cta-button {
-                font-size: 2rem !important;
-                padding: 1.5rem 3rem !important;
+            .team-member {
+                padding: 2rem 1.5rem;
             }
 
-            .intro-video-container {
-                max-width: 95% !important;
-                margin: 0 0.5rem !important;
+            .member-photo {
+                width: 200px;
+                height: 200px;
             }
 
-            .video-chrome {
-                height: 35px !important;
+            .member-name {
+                font-size: 2rem;
             }
 
-            .window-dot {
-                width: 10px !important;
-                height: 10px !important;
+            .member-role {
+                font-size: 1.3rem;
             }
 
-            .video-title-bar {
-                font-size: 11px !important;
+            .member-specialty {
+                font-size: 1.1rem;
             }
 
-            .intro-video-wrapper {
-                padding-top: 35px !important;
+            .values-section {
+                padding: 2rem 1.5rem;
             }
 
-            .video-overlay {
-                top: 35px !important;
+            .value-letter {
+                font-size: 2.5rem;
+                min-width: 40px;
             }
 
-            .problem-title {
-                font-size: 2.5rem !important;
+            .value-title {
+                font-size: 1.4rem;
             }
 
-            .problem-description {
-                font-size: 1.1rem !important;
+            .value-description {
+                font-size: 1.1rem;
             }
 
-            .big-question {
-                font-size: 2rem !important;
-            }
-
-            .webinar-title {
-                font-size: 2.5rem !important;
-            }
-
-            .webinar-description {
-                font-size: 1.2rem !important;
-            }
-
-            .webinar-button {
-                font-size: 1.3rem !important;
-                padding: 1.2rem 2.5rem !important;
-            }
-
-            .webinar-card {
-                padding: 2rem !important;
-            }
-
-            .demo-title {
-                font-size: 2.5rem !important;
-            }
-
-
-
-            .header-bar {
-                height: 100px;
-            }
-
-            .top-logo {
-                height: 80px;
-                top: 1rem;
-                left: 1rem;
+            .value-item {
+                gap: 1rem;
             }
 
             .floating-buttons {
@@ -790,6 +387,24 @@
                 font-size: 2rem;
                 padding: 2rem 3rem;
                 max-width: 90%;
+            }
+
+            .header-bar {
+                height: 100px;
+            }
+
+            .top-logo {
+                height: 80px;
+                top: 1rem;
+                left: 1rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -861,262 +476,92 @@
         <a href="/who-are-we">Who Are We</a>
     </div>
 
-    <!-- Disclaimer Modal -->
-    <div class="disclaimer-modal" id="disclaimerModal">
-        <div class="disclaimer-content">
-            <h2 class="disclaimer-title">Important Notice</h2>
-            <p class="disclaimer-text">This website is not affiliated with Bergen County Academies. We are an independent tutoring service created by BCA students.</p>
-            <button class="disclaimer-button" id="disclaimerButton">I Understand</button>
-        </div>
-    </div>
-
     <!-- Top Logo -->
-    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+    <a href="/">
         <img src="logo.png" alt="Path2 BCA Logo" class="top-logo">
     </a>
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <a href="/who-are-we" class="floating-who-btn">Who Are We</a>
         <a href="/work-with-us" class="floating-work-btn">Work With Us</a>
     </div>
 
-    <!-- Hero Section -->
-    <section class="section hero">
-        <div class="grid-overlay" id="heroGrid"></div>
-        <div class="hero-content">
-            <h1 class="slogan">Why not learn from the students who actually got in?</h1>
-        </div>
-    </section>
+    <div class="container">
+        <h1 class="page-title">Who Are We</h1>
 
-    <!-- Problem Section -->
-    <section class="section problem">
-        <div class="floating-shapes" id="floatingShapes">
-            <div class="shape shape1"></div>
-            <div class="shape shape2"></div>
-            <div class="shape shape3"></div>
-            <div class="shape shape4"></div>
-            <div class="shape shape5"></div>
-        </div>
-        <div class="problem-content">
-            <p class="problem-text">
-                Every year, <span class="highlight">hundreds of families</span> spend 
-                <span class="highlight">thousands of dollars</span> on <span class="highlight">CERTAIN</span> test prep companies...
+        <div class="intro-section">
+            <p class="intro-text">
+                We are current BCA students who understand the admissions journey because we have lived it. We know what it takes to earn admission, and we are committed to helping the next generation of students reach their goals. As current BCA students, we occasionally hear teachers reference what they value in applicants and the qualities that stand out.
             </p>
-            <p class="cost-callout">(We all know who they are)</p>
-            <p class="problem-text">...hoping their child gets into <span class="highlight">BCA</span>.</p>
-            <div class="big-question">But does it have to cost that much?</div>
+            <p class="intro-text">
+                Unlike traditional test prep companies, we offer authentic, first-hand insight from students who actively attend BCA. We can speak honestly about daily life at the school, academic workload, and how each academy truly functions. We have gone through the application process ourselves, understand its challenges, and guide students at every step using real, insider knowledge that cannot be found elsewhere.
+            </p>
         </div>
-    </section>
 
-    <!-- Webinar Section -->
-    <section class="section webinar-section">
-        <div class="webinar-card">
-            <div class="webinar-title">📅 FREE BCA Admissions Webinar</div>
-            <div class="webinar-description">
-                Join us for an exclusive webinar where current BCA students share insider tips, application strategies, and answer your questions live!
+        <div class="team-section">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo" style="background-image: url('samuel.png'); background-size: cover; background-position: 45% 35%;"></div>
+                    <h3 class="member-name">Samuel Kim</h3>
+                    <p class="member-role">Co-Founder & CEO | ABF '27</p>
+                    <p class="member-specialty">Math • Admissions Strategy • SAT: 1570</p>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-photo" style="background-image: url('oliver.png'); background-size: cover; background-position: center;"></div>
+                    <h3 class="member-name">Oliver Siringan</h3>
+                    <p class="member-role">Co-Founder & COO | AMST '27</p>
+                    <p class="member-specialty">Application Essays & Writing</p>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-photo" style="background-image: url('ewan.png'); background-size: cover; background-position: center;"></div>
+                    <h3 class="member-name">Ewan Kim</h3>
+                    <p class="member-role">Co-Founder & COO | AAST '27</p>
+                    <p class="member-specialty">Math • Interviews • SAT: 1550</p>
+                </div>
             </div>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSclLNK-kiklQc47luZAu8hWH4VcmEFLGqJvne_6PvHjf2ASDg/viewform?usp=sharing&ouid=115029838906916684653" target="_blank" rel="noopener noreferrer" class="webinar-button">Register Now - It's Free!</a>
         </div>
-    </section>
+
+        <div class="values-section">
+            <h2 class="section-title">PATH: Our Values</h2>
+            
+            <div class="value-item">
+                <div class="value-letter">P</div>
+                <div class="value-content">
+                    <h3 class="value-title">Personalization</h3>
+                    <p class="value-description">Every student is unique. We tailor our approach to your individual strengths, challenges, and goals.</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-letter">A</div>
+                <div class="value-content">
+                    <h3 class="value-title">Authenticity</h3>
+                    <p class="value-description">We share real experiences and honest advice from students who actually attend BCA. No corporate scripts, just genuine insights.</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-letter">T</div>
+                <div class="value-content">
+                    <h3 class="value-title">Transparency</h3>
+                    <p class="value-description">We're committed to helping you succeed. Our strategies are proven because we've used them ourselves to get into BCA.</p>
+                </div>
+            </div>
+
+            <div class="value-item">
+                <div class="value-letter">H</div>
+                <div class="value-content">
+                    <h3 class="value-title">Help</h3>
+                    <p class="value-description">Quality BCA prep shouldn't cost thousands of dollars. We believe every student deserves access to excellent guidance and support.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Disclaimer Modal - only show once per session
-        const disclaimerModal = document.getElementById('disclaimerModal');
-        const disclaimerButton = document.getElementById('disclaimerButton');
-        
-        // Check if user has already seen the disclaimer this session
-        const hasSeenDisclaimer = sessionStorage.getItem('disclaimerSeen');
-        
-        if (!hasSeenDisclaimer) {
-            // First time this session - show modal and prevent scrolling
-            document.body.classList.add('modal-open');
-        } else {
-            // Already seen - hide modal immediately
-            disclaimerModal.classList.add('hidden');
-        }
-        
-        if (disclaimerButton) {
-            disclaimerButton.addEventListener('click', () => {
-                disclaimerModal.classList.add('hidden');
-                document.body.classList.remove('modal-open');
-                // Mark as seen for this session
-                sessionStorage.setItem('disclaimerSeen', 'true');
-            });
-        }
-
-        // Smooth scrolling grid animations
-        let scrollY = 0;
-        let currentScrollY = 0;
-        const lerp = (start, end, factor) => start + (end - start) * factor;
-
-        function animateGrids() {
-            currentScrollY = lerp(currentScrollY, scrollY, 0.1);
-            
-            const heroGrid = document.getElementById('heroGrid');
-            
-            if (heroGrid) {
-                const heroRotation = currentScrollY * 0.02;
-                const heroTranslate = (currentScrollY * 0.05) % 50;
-                heroGrid.style.transform = `translate(${heroTranslate}px, ${heroTranslate}px) rotate(${heroRotation}deg)`;
-            }
-            
-            requestAnimationFrame(animateGrids);
-        }
-
-        window.addEventListener('scroll', () => {
-            scrollY = window.scrollY;
-        });
-
-        animateGrids();
-
-        // Video auto-play and interaction
-        const introVideo = document.querySelector('.intro-video');
-        const videoPlayButton = document.querySelector('.video-play-button');
-        const videoOverlay = document.querySelector('.video-overlay');
-        const comingSoon = document.createElement('div');
-        comingSoon.className = 'coming-soon';
-        comingSoon.textContent = 'Video coming soon';
-        const introWrapper = document.querySelector('.intro-video-wrapper');
-        if (introWrapper) introWrapper.appendChild(comingSoon);
-
-        if (videoPlayButton && introVideo) {
-            videoPlayButton.addEventListener('click', () => {
-                const container = document.querySelector('.intro-video-container');
-                if (introVideo.paused) {
-                    introVideo.play();
-                    container.classList.add('playing');
-                } else {
-                    introVideo.pause();
-                    container.classList.remove('playing');
-                }
-            });
-
-            introVideo.addEventListener('click', () => {
-                const container = document.querySelector('.intro-video-container');
-                if (introVideo.paused) {
-                    introVideo.play();
-                    container.classList.add('playing');
-                } else {
-                    introVideo.pause();
-                    container.classList.remove('playing');
-                }
-            });
-        }
-
-        // Dynamic founder cards pop-in animation
-        const observerOptions = {
-            threshold: 0.3,
-            rootMargin: '0px'
-        };
-
-        const founderObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const cards = document.querySelectorAll('.founder-card');
-                    cards.forEach((card, index) => {
-                        const delay = parseInt(card.dataset.delay);
-                        setTimeout(() => {
-                            card.classList.add('animate-in');
-                        }, delay);
-                    });
-                    founderObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        const foundersSection = document.querySelector('.founders');
-        if (foundersSection) {
-            founderObserver.observe(foundersSection);
-        }
-
-        // Floating shapes animation
-        const shapes = document.querySelectorAll('.shape');
-        let shapePositions = Array.from(shapes).map(() => ({
-            x: 0,
-            y: 0,
-            targetX: 0,
-            targetY: 0,
-            rotation: 0
-        }));
-
-        // Sticky disclaimer behavior
-        const disclaimer = document.querySelector('.disclaimer');
-        if (disclaimer) {
-            let isSticky = false;
-            
-            const checkStickyPosition = () => {
-                const rect = disclaimer.getBoundingClientRect();
-                const shouldBeSticky = rect.top <= 0;
-                
-                // Only toggle class if state actually changed
-                if (shouldBeSticky !== isSticky) {
-                    isSticky = shouldBeSticky;
-                    if (isSticky) {
-                        disclaimer.classList.add('sticky');
-                    } else {
-                        disclaimer.classList.remove('sticky');
-                    }
-                }
-            };
-            
-            // Use requestAnimationFrame for smooth, precise updates
-            let ticking = false;
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        checkStickyPosition();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-            
-            // Initial check
-            checkStickyPosition();
-        }
-
-        function animateShapes() {
-            const problemSection = document.querySelector('.problem');
-            const rect = problemSection.getBoundingClientRect();
-            const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / window.innerHeight));
-            
-            shapes.forEach((shape, index) => {
-                const speed = 0.3 + (index * 0.15);
-                const rotationSpeed = 0.5 + (index * 0.2);
-                
-                shapePositions[index].targetX = Math.sin(scrollY * 0.001 + index) * 50 * speed;
-                shapePositions[index].targetY = Math.cos(scrollY * 0.001 + index) * 50 * speed - (scrollProgress * 100 * speed);
-                
-                shapePositions[index].x = lerp(shapePositions[index].x, shapePositions[index].targetX, 0.1);
-                shapePositions[index].y = lerp(shapePositions[index].y, shapePositions[index].targetY, 0.1);
-                shapePositions[index].rotation += rotationSpeed * 0.5;
-                
-                shape.style.transform = `translate(${shapePositions[index].x}px, ${shapePositions[index].y}px) rotate(${shapePositions[index].rotation}deg) scale(${0.8 + scrollProgress * 0.4})`;
-            });
-            
-            requestAnimationFrame(animateShapes);
-        }
-
-        animateShapes();
-
-        // Intersection Observer for fade-in animations
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, {threshold: 0.2, rootMargin: '0px'});
-
-        document.querySelectorAll('.problem-content').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(50px)';
-            el.style.transition = 'all 1s ease';
-            fadeObserver.observe(el);
-        });
-
         // Hamburger Menu
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -1125,7 +570,7 @@
             hamburgerMenu.addEventListener('click', () => {
                 hamburgerMenu.classList.toggle('open');
                 mobileMenu.classList.toggle('open');
-                document.body.classList.toggle('modal-open');
+                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
             });
 
             // Close menu when clicking outside
@@ -1133,7 +578,7 @@
                 if (e.target === mobileMenu) {
                     hamburgerMenu.classList.remove('open');
                     mobileMenu.classList.remove('open');
-                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
                 }
             });
 
@@ -1142,7 +587,7 @@
                 link.addEventListener('click', () => {
                     hamburgerMenu.classList.remove('open');
                     mobileMenu.classList.remove('open');
-                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
                 });
             });
         }
