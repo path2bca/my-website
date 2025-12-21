@@ -1,0 +1,329 @@
+<!-- BACKUP: "See How We Teach" Section with Videos -->
+<!-- Saved on: December 21, 2025 -->
+<!-- Original location: index.html, lines ~1053-1093 -->
+
+<!-- CSS Styles for Video Section -->
+<style>
+        /* Video Intro Section - Dynamic Popup */
+        .video-intro {
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .video-intro-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Demo Section */
+        .demo {
+            background: #ffffff;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+        }
+
+        .demo-header {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            margin-top: 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            color: #1e293b;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 2rem 3rem;
+            border: 4px solid #3b82f6;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .video-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateX(-60px) translateZ(0);
+            position: relative;
+        }
+
+        .video-card:hover {
+            box-shadow: 0 28px 60px rgba(59, 130, 246, 0.28);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: scale(1.5) translateZ(0);
+            z-index: 10;
+        }
+
+        .video-card:hover .video-placeholder {
+            opacity: 0;
+        }
+
+        .video-card:hover .video-iframe {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .video-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-card.reveal {
+            animation: slideInLeftFlash 1.2s cubic-bezier(.22,1,.36,1) forwards;
+        }
+
+        .video-card.reveal:nth-child(1) { animation-delay: 0.15s; }
+        .video-card.reveal:nth-child(2) { animation-delay: 0.55s; }
+        .video-card.reveal:nth-child(3) { animation-delay: 0.95s; }
+
+        @keyframes slideInLeftFlash {
+            0% {
+                opacity: 0;
+                transform: translateX(-60px) scale(0.98);
+                filter: blur(2px);
+                box-shadow: 0 0 0 rgba(59,130,246,0);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(8px) scale(1.03);
+                filter: blur(0.5px);
+                box-shadow: 0 14px 40px rgba(59,130,246,0.25);
+            }
+            85% {
+                transform: translateX(-4px) scale(1.01);
+                box-shadow: 0 10px 28px rgba(59,130,246,0.2);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+                box-shadow: 0 8px 24px rgba(59,130,246,0.18);
+            }
+        }
+
+        .video-placeholder {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover .play-icon {
+            transform: scale(1.1);
+        }
+
+        .play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid #3b82f6;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .video-description {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        /* Grid overlay styles */
+        .grid-overlay {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+            pointer-events: none;
+        }
+</style>
+
+<!-- HTML Section -->
+<section class="section demo">
+    <div class="grid-overlay" id="demoGrid"></div>
+    <h2 class="demo-header">See How We Teach</h2>
+    <div class="video-grid">
+        <div class="video-card" data-index="0">
+            <div class="video-placeholder">
+                <div class="play-icon"></div>
+            </div>
+            <div class="video-iframe">
+                <iframe id="ytplayer0" src="https://www.youtube.com/embed/6Ui1oLsS5FI?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Math Problem Solving</div>
+                <div class="video-description">Quick tips on tackling complex equations</div>
+            </div>
+        </div>
+        <div class="video-card" data-index="1">
+            <div class="video-placeholder">
+                <div class="play-icon"></div>
+            </div>
+            <div class="video-iframe">
+                <iframe id="ytplayer1" src="https://www.youtube.com/embed/6Ui1oLsS5FI?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Essay Writing Strategies</div>
+                <div class="video-description">How to craft compelling essays that stand out</div>
+            </div>
+        </div>
+        <div class="video-card" data-index="2">
+            <div class="video-placeholder">
+                <div class="play-icon"></div>
+            </div>
+            <div class="video-iframe">
+                <iframe id="ytplayer2" src="https://www.youtube.com/embed/6Ui1oLsS5FI?enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Test-Taking Tips</div>
+                <div class="video-description">Time management and strategy from students who aced it</div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<!-- JavaScript for Video Cards Animation -->
+<script>
+    // Grid animation
+    if (demoGrid) {
+        const demoRect = document.querySelector('.demo').getBoundingClientRect();
+        const demoScroll = Math.max(0, -demoRect.top);
+        const demoTranslate = (demoScroll * 0.08) % 60;
+        demoGrid.style.transform = `translate(${demoTranslate}px, ${demoTranslate}px)`;
+    }
+
+    // Video card reveal on scroll
+    const videoCards = document.querySelectorAll('.video-card');
+    const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px'
+    };
+
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+            }
+        });
+    }, observerOptions);
+
+    videoCards.forEach(card => {
+        videoObserver.observe(card);
+    });
+
+    // YouTube iframe API handling
+    let players = {};
+    
+    function onYouTubeIframeAPIReady() {
+        document.querySelectorAll('.video-card').forEach((card, index) => {
+            const iframe = card.querySelector('iframe');
+            if (iframe) {
+                players[index] = new YT.Player(`ytplayer${index}`, {
+                    events: {
+                        'onReady': onPlayerReady
+                    }
+                });
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        // Player is ready
+    }
+
+    // Handle video card hover to play/pause
+    document.querySelectorAll('.video-card').forEach((card, index) => {
+        card.addEventListener('mouseenter', () => {
+            if (players[index] && players[index].playVideo) {
+                players[index].playVideo();
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            if (players[index] && players[index].pauseVideo) {
+                players[index].pauseVideo();
+            }
+        });
+    });
+</script>
